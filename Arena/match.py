@@ -11,6 +11,12 @@ test harness, …) owns the game loop. Create a :class:`Session`, read the
 current observation with :meth:`Session.observe`, push your action with
 :meth:`Session.step`, and check :attr:`Session.result` when it is done.
 
+**Instant simulation (rollout)** — from any game state, evaluate a candidate
+action by applying it on a *copy* of the board and letting two policy callables
+play out the rest of the game automatically.  Use :func:`simulate_action` as a
+standalone helper or :meth:`Session.simulate` on a live session.  The original
+game state is never touched.
+
 Both modes share the same :class:`TurnRecord` / :class:`MatchResult` schema so
 replay, logging, and visualisation helpers work identically.
 
@@ -42,6 +48,25 @@ Session (two outside callers)::
 
     result = session.result
     print(result.winner, result.history)    # history == list[TurnRecord]
+
+Instant simulation (rollout) — evaluate a candidate action without committing::
+
+    from Arena import Session, simulate_action
+
+    session = Session()
+    # ... play some turns ...
+    obs = session.observe()
+
+    # Pick a candidate action and roll out the rest with two policies
+    candidate = {"type": "move", "to": obs["legal_moves"][0]}
+    rollout = simulate_action(candidate, session.snapshot(), policy0, policy1)
+
+    print(rollout.winner)        # projected winner if this action is taken
+    print(rollout.total_turns)   # projected game length
+    # session is UNCHANGED — keep playing normally
+
+    # Or use the convenience method directly on the session:
+    rollout = session.simulate(candidate, policy0, policy1)
 """
 
 from __future__ import annotations
@@ -277,6 +302,168 @@ def run_simulation(
 
 
 # ---------------------------------------------------------------------------
+# Mode 1b — Instant simulation (rollout / what-if)
+# ---------------------------------------------------------------------------
+
+def simulate_action(
+    action: Any,
+    state_snapshot: Dict[str, Any],
+    policy0: AgentFn,
+    policy1: AgentFn,
+    *,
+    names: Optional[List[str]] = None,
+    on_turn: Optional[Callable[[TurnRecord], None]] = None,
+) -> "MatchResult":
+    """Apply *action* on a copy of *state_snapshot* and auto-play to the end.
+
+    This is the **instant simulation** (rollout) primitive.  It lets a training
+    agent evaluate any candidate action without touching the live game state.
+
+    How it works
+    ------------
+    1. A fresh :class:`~Arena.environment.Environment` is reconstructed from
+       *state_snapshot* using :meth:`~Arena.environment.Environment.from_snapshot`.
+    2. *action* is applied for the **currently active player**.
+    3. Both *policy0* and *policy1* then play alternate turns until the game
+       ends naturally (win or draw).
+    4. The full :class:`MatchResult` — including every turn from step 2 onward
+       — is returned.  The original session / environment is **never mutated**.
+
+    Parameters
+    ----------
+    action:
+        The candidate action dict to evaluate (e.g.
+        ``{"type": "move", "to": [6, 4]}``).  If the action is illegal the
+        turn is forfeited (same as the main arena) and the rollout continues.
+    state_snapshot:
+        A snapshot dict returned by :meth:`Session.snapshot` or
+        :meth:`~Arena.environment.Environment.snapshot`.  The snapshot is not
+        mutated.
+    policy0, policy1:
+        Callables with signature ``(observation: dict) -> dict``.  These are
+        the policies used to play out the remainder of the game after *action*
+        is applied.  Typically both are set to your current trained policy (or
+        a cheap heuristic) to get a quick value estimate.
+    names:
+        ``[name_for_player0, name_for_player1]``.  Defaults to
+        ``['player0', 'player1']``.
+    on_turn:
+        Optional callback invoked with the :class:`TurnRecord` after every
+        half-turn of the rollout.
+
+    Returns
+    -------
+    MatchResult
+        A complete result covering the entire rollout (starting from *action*).
+        Key attributes for training:
+
+        * ``result.winner`` — projected winner (``0``, ``1``, or ``None``).
+        * ``result.total_turns`` — projected game length.
+        * ``result.turns`` — every turn played during the rollout.
+        * ``result.initial_state`` — board state *before* the rollout action.
+        * ``result.final_state`` — board state at the end of the rollout.
+
+    Example
+    -------
+    ::
+
+        from Arena import Session, simulate_action
+
+        def my_policy(obs):
+            moves = obs["legal_moves"]
+            return {"type": "move", "to": moves[0]} if moves else {"type": "pass"}
+
+        session = Session()
+        # ... play several real turns ...
+        obs = session.observe()
+
+        best_action, best_winner = None, -1
+        for candidate in obs["legal_moves"]:
+            action = {"type": "move", "to": candidate}
+            rollout = simulate_action(action, session.snapshot(), my_policy, my_policy)
+            my_pid  = obs["player_id"]
+            if rollout.winner == my_pid:
+                best_action = action
+                break
+
+        # Commit the real turn — session is still live and unmodified
+        session.step(best_action or obs["legal_moves"][0])
+    """
+    if names is None:
+        names = ["player0", "player1"]
+    policies: List[AgentFn] = [policy0, policy1]
+
+    env = Environment.from_snapshot(state_snapshot)
+    initial = env.snapshot()           # snapshot *before* the rollout action
+    turns: List[TurnRecord] = []
+
+    if env.done:
+        # Nothing to simulate — return a completed-game result immediately.
+        winner_name = names[env.winner] if env.winner is not None else None
+        return MatchResult(
+            winner=env.winner,
+            winner_name=winner_name,
+            termination_reason=env.termination_reason,
+            total_turns=env.turn_count,
+            turns=turns,
+            initial_state=initial,
+            final_state=env.snapshot(),
+            config=_make_config(env.max_turns, None, state_snapshot.get("current_player", 0), names),
+        )
+
+    # Step 1 — apply the candidate action (may forfeit if illegal).
+    first_record = _apply(env, action)
+    turns.append(first_record)
+    if on_turn is not None:
+        on_turn(first_record)
+
+    # Step 2 — auto-play the remainder with the supplied policies.
+    while not env.done:
+        player = env.current_player
+        obs = env.get_observation(player)
+
+        t0 = time.monotonic()
+        error: Optional[str] = None
+        try:
+            act = policies[player](obs)
+        except Exception as exc:
+            act = None
+            error = f"{type(exc).__name__}: {exc}"
+        elapsed = time.monotonic() - t0
+
+        if error is not None:
+            env.skip_turn("agent_error")
+            record = TurnRecord(
+                turn=env.turn_count,
+                player=player,
+                action=None,
+                status="error",
+                reason="agent_error",
+                elapsed=elapsed,
+                error=error,
+                state=env.snapshot(),
+            )
+        else:
+            record = _apply(env, act, elapsed)
+
+        turns.append(record)
+        if on_turn is not None:
+            on_turn(record)
+
+    winner_name = names[env.winner] if env.winner is not None else None
+    return MatchResult(
+        winner=env.winner,
+        winner_name=winner_name,
+        termination_reason=env.termination_reason,
+        total_turns=env.turn_count,
+        turns=turns,
+        initial_state=initial,
+        final_state=env.snapshot(),
+        config=_make_config(env.max_turns, None, state_snapshot.get("current_player", 0), names),
+    )
+
+
+# ---------------------------------------------------------------------------
 # Mode 2 — Session (external turn-by-turn control)
 # ---------------------------------------------------------------------------
 
@@ -442,6 +629,79 @@ class Session:
     def snapshot(self) -> Dict[str, Any]:
         """Raw board snapshot (same format as :meth:`~Arena.environment.Environment.snapshot`)."""
         return self._env.snapshot()
+
+    def simulate(
+        self,
+        action: Any,
+        policy0: AgentFn,
+        policy1: AgentFn,
+        *,
+        names: Optional[List[str]] = None,
+        on_turn: Optional[Callable[[TurnRecord], None]] = None,
+    ) -> "MatchResult":
+        """Evaluate *action* by rolling out the rest of the game on a copy of this session.
+
+        This is a convenience wrapper around :func:`simulate_action` that
+        automatically passes the current session's snapshot as the starting
+        state.  The live session is **never modified**.
+
+        Parameters
+        ----------
+        action:
+            The candidate action to evaluate.
+        policy0, policy1:
+            Callables ``(obs: dict) -> dict`` used to auto-play every turn
+            after *action* is committed on the copy.  Pass your current agent
+            as both arguments to simulate self-play, or use a cheap heuristic
+            for speed.
+        names:
+            Player names for the rollout result.  Defaults to the session's
+            own names.
+        on_turn:
+            Optional callback called with each :class:`TurnRecord` during the
+            rollout.
+
+        Returns
+        -------
+        MatchResult
+            Projected outcome if *action* is taken now.
+
+        Example
+        -------
+        ::
+
+            session = Session(names=["Trainer", "Opponent"])
+
+            while not session.done:
+                obs = session.observe()
+                pid = obs["current_player"]
+
+                if pid == 0:
+                    # Evaluate all legal moves via instant simulation
+                    best, best_score = None, -1
+                    for m in obs["legal_moves"]:
+                        candidate = {"type": "move", "to": m}
+                        rollout = session.simulate(candidate, my_policy, my_policy)
+                        score = 1 if rollout.winner == 0 else 0
+                        if score > best_score:
+                            best, best_score = candidate, score
+                    action = best or {"type": "pass"}
+                else:
+                    action = opponent_policy(obs)
+
+                # Commit the REAL turn — session is unchanged by simulate()
+                session.step(action)
+        """
+        if self._env.done:
+            raise RuntimeError("The game is already over. Check session.result.")
+        return simulate_action(
+            action,
+            self._env.snapshot(),
+            policy0,
+            policy1,
+            names=names if names is not None else list(self._names),
+            on_turn=on_turn,
+        )
 
     def __repr__(self) -> str:
         if self._env.done:

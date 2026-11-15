@@ -13,12 +13,13 @@ A complete reference for the **Wrongway Arena** package — the game engine you 
 5. [Actions](#5-actions)
 6. [Mode 1 — `run_simulation`](#6-mode-1--run_simulation)
 7. [Mode 2 — `Session`](#7-mode-2--session)
-8. [Return types — `MatchResult` & `TurnRecord`](#8-return-types--matchresult--turnrecord)
-9. [CLI — `python -m Arena.cli`](#9-cli--python--m-arenacli)
-10. [Visualising the board](#10-visualising-the-board)
-11. [Low-level access — `Environment`](#11-low-level-access--environment)
-12. [Running isolated file-based agents](#12-running-isolated-file-based-agents)
-13. [Recipes](#13-recipes)
+8. [Mode 3 — Instant simulation (rollout)](#8-mode-3--instant-simulation-rollout)
+9. [Return types — `MatchResult` & `TurnRecord`](#9-return-types--matchresult--turnrecord)
+10. [CLI — `python -m Arena.cli`](#10-cli--python--m-arenacli)
+11. [Visualising the board](#11-visualising-the-board)
+12. [Low-level access — `Environment`](#12-low-level-access--environment)
+13. [Running isolated file-based agents](#13-running-isolated-file-based-agents)
+14. [Recipes](#14-recipes)
 
 ---
 
@@ -29,7 +30,7 @@ wrongway/
 ├── Arena/                    ← importable package (this guide)
 │   ├── __init__.py           ← public API surface
 │   ├── environment.py        ← pure game rules & state
-│   ├── match.py              ← run_simulation + Session
+│   ├── match.py              ← run_simulation + Session + simulate_action
 │   ├── agent_runner.py       ← subprocess-isolated .py file runner
 │   ├── visualizer.py         ← terminal board renderer
 │   └── cli.py                ← command-line entry point
@@ -330,9 +331,152 @@ print(f"Winner: {result.winner_name} after {result.total_turns} turns")
 
 ---
 
-## 8. Return types — `MatchResult` & `TurnRecord`
+## 8. Mode 3 — Instant simulation (rollout)
 
-Both `run_simulation` and `Session.result` return a `MatchResult` containing a list of `TurnRecord` objects.
+The **instant simulation** (rollout) feature lets a training agent evaluate any candidate action by applying it on a *copy* of the current board state and auto-playing both sides to the end using supplied policies. The live session is **never modified**.
+
+This is the standard building block for tree-search algorithms (MCTS, minimax) and RL value estimation.
+
+### How it works
+
+```
+current state  ──┬──► copy of env ──► apply candidate action ──► auto-play to end ──► MatchResult
+  (unchanged)    │                         (copy only)
+                 │
+                 └──► session keeps running normally
+```
+
+### Standalone helper — `simulate_action`
+
+```python
+from Arena import simulate_action
+
+rollout = simulate_action(
+    action,          # candidate action dict to evaluate
+    state_snapshot,  # dict from session.snapshot() or env.snapshot()
+    policy0,         # callable(obs) -> action for player 0's remaining turns
+    policy1,         # callable(obs) -> action for player 1's remaining turns
+    names  = None,   # optional ["name0", "name1"]
+    on_turn= None,   # optional callback(TurnRecord) per rollout turn
+)
+```
+
+`state_snapshot` is any snapshot dict — typically `session.snapshot()` from a live session. The snapshot is **not mutated**.
+
+### Session convenience method — `Session.simulate`
+
+```python
+rollout = session.simulate(
+    action,     # candidate action dict
+    policy0,    # policy for player 0's remaining turns
+    policy1,    # policy for player 1's remaining turns
+    names  = None,
+    on_turn= None,
+)
+```
+
+Identical to calling `simulate_action(action, session.snapshot(), policy0, policy1, ...)` but reads the snapshot for you automatically.
+
+> [!IMPORTANT]
+> Both `simulate_action` and `session.simulate` **do not modify the live session or environment**. After a rollout you can keep calling `session.step()` as normal.
+
+### Return value
+
+Both return a fully-populated `MatchResult` covering the entire rollout starting from the candidate action. Key fields for training:
+
+| Field | Use |
+|---|---|
+| `result.winner` | Projected winner (`0`, `1`, or `None` for draw) |
+| `result.total_turns` | Projected game length |
+| `result.turns` | Every turn played during the rollout |
+| `result.initial_state` | Board state *before* the rollout action |
+| `result.final_state` | Board state at the end of the rollout |
+
+### Minimal example — pick the best move by rollout
+
+```python
+from Arena import Session, simulate_action
+
+def my_policy(obs):
+    moves = obs["legal_moves"]
+    if not moves:
+        return {"type": "pass"}
+    dist = obs["distances"]
+    return {"type": "move", "to": min(moves, key=lambda m: dist[m[0]][m[1]] if dist[m[0]][m[1]] >= 0 else 9999)}
+
+session = Session(names=["Trainer", "Opponent"])
+
+while not session.done:
+    obs = session.observe()
+    pid = obs["current_player"]
+
+    if pid == 0:
+        # Evaluate every legal move via instant simulation
+        best_action, best_winner = None, -1
+        for m in obs["legal_moves"]:
+            candidate = {"type": "move", "to": m}
+            rollout = session.simulate(candidate, my_policy, my_policy)
+            if rollout.winner == 0:
+                best_action = candidate
+                break   # found a winning move — no need to search further
+        action = best_action or {"type": "move", "to": obs["legal_moves"][0]}
+    else:
+        action = my_policy(obs)
+
+    # Commit the REAL turn — session.simulate never touched it
+    session.step(action)
+
+print(session.result.winner, session.result.total_turns)
+```
+
+### Training loop — collect rollout results for RL
+
+```python
+from Arena import Session, simulate_action
+
+training_data = []   # (state_snapshot, action, outcome) triples
+
+session = Session()
+while not session.done:
+    obs    = session.observe()
+    pid    = obs["current_player"]
+    state  = session.snapshot()          # save state before acting
+
+    # Your RL agent picks a candidate action
+    candidate = my_rl_agent(obs)
+
+    # Instant simulation: let both sides play the rest with the current policy
+    rollout = session.simulate(candidate, current_policy, current_policy)
+
+    # Outcome from the perspective of the acting player
+    if rollout.winner == pid:
+        outcome = 1.0    # win
+    elif rollout.winner is None:
+        outcome = 0.5    # draw
+    else:
+        outcome = 0.0    # loss
+
+    training_data.append((state, candidate, outcome))
+
+    # Commit the real turn and continue
+    session.step(candidate)
+
+# Use training_data to update your model
+for state, action, outcome in training_data:
+    my_rl_agent.update(state, action, outcome)
+```
+
+> [!TIP]
+> For speed, pass a **cheap heuristic** (like `greedy`) as `policy0` / `policy1` instead of your full model. The rollout only needs to be good enough to give a useful value signal.
+
+> [!NOTE]
+> `simulate_action` accepts any snapshot dict, not just live session snapshots. You can store snapshots from past games and replay rollouts from arbitrary past states.
+
+---
+
+## 9. Return types — `MatchResult` & `TurnRecord`
+
+Both `run_simulation`, `simulate_action`, and `Session.result` return a `MatchResult` containing a list of `TurnRecord` objects.
 
 ### `MatchResult`
 
@@ -391,7 +535,7 @@ json.dump(data, open("replay.json", "w"), indent=2)
 
 ---
 
-## 9. CLI — `python -m Arena.cli`
+## 10. CLI — `python -m Arena.cli`
 
 Run from the `wrongway/` directory (the folder that contains `Arena/`):
 
@@ -439,7 +583,7 @@ python -m Arena.cli -p1 greedy -p2 wall_builder --starting-player 1
 
 ---
 
-## 10. Visualising the board
+## 11. Visualising the board
 
 ```python
 from Arena import render_board
@@ -484,7 +628,7 @@ run_simulation(greedy, greedy, on_turn=on_turn)
 
 ---
 
-## 11. Low-level access — `Environment`
+## 12. Low-level access — `Environment`
 
 `Environment` is the pure game engine. You can drive it directly if you need fine-grained control.
 
@@ -531,7 +675,7 @@ env.termination_reason  # 'goal', 'max_turns', or None
 
 ---
 
-## 12. Running isolated file-based agents
+## 13. Running isolated file-based agents
 
 `StudentAgent` runs a `.py` submission in a **separate subprocess**, with time limits and fault isolation. This is what the CLI uses under the hood.
 
@@ -569,7 +713,7 @@ with StudentAgent("submissions/greedy.py", timeout=1.0, seed=0) as agent:
 
 ---
 
-## 13. Recipes
+## 14. Recipes
 
 ### Tournament — round-robin
 
@@ -677,4 +821,63 @@ while not session.done:
     else:
         # Simulate player 1 timing out every other turn
         record = session.skip("timeout")
+```
+
+### Rollout-based value estimation for RL
+
+Use `session.simulate` to get outcome signals for any candidate action without committing it to the game — ideal for policy-gradient or value-network training:
+
+```python
+from Arena import Session, simulate_action
+
+training_data = []   # (state_snapshot, action, outcome) triples
+
+session = Session()
+while not session.done:
+    obs    = session.observe()
+    pid    = obs["current_player"]
+    state  = session.snapshot()          # save the board before acting
+
+    # Your agent picks a candidate (from your model, epsilon-greedy, etc.)
+    candidate = my_rl_agent.choose(obs)
+
+    # Roll out the game from this action with the current policy
+    rollout = session.simulate(candidate, current_policy, current_policy)
+
+    # Map outcome to a scalar reward from the acting player's perspective
+    if rollout.winner == pid:
+        outcome = 1.0    # win
+    elif rollout.winner is None:
+        outcome = 0.5    # draw
+    else:
+        outcome = 0.0    # loss
+
+    training_data.append((state, candidate, outcome))
+
+    # Commit the REAL turn and continue the live game
+    session.step(candidate)
+
+# Update your model with the collected (state, action, outcome) triples
+for state, action, outcome in training_data:
+    my_rl_agent.update(state, action, outcome)
+```
+
+### MCTS-style look-ahead: score every legal move
+
+```python
+from Arena import Session
+
+session = Session()
+obs = session.observe()
+
+scores = {}
+for m in obs["legal_moves"]:
+    candidate = {"type": "move", "to": m}
+    rollout   = session.simulate(candidate, rollout_policy, rollout_policy)
+    my_pid    = obs["player_id"]
+    scores[tuple(m)] = 1.0 if rollout.winner == my_pid else (0.5 if rollout.winner is None else 0.0)
+
+# Pick the highest-scoring move
+best_move = max(scores, key=scores.get)
+session.step({"type": "move", "to": list(best_move)})
 ```

@@ -226,6 +226,40 @@ class Environment:
             "termination_reason": self.termination_reason,
         }
 
+    @classmethod
+    def from_snapshot(cls, snap: Dict[str, Any]) -> "Environment":
+        """Reconstruct an :class:`Environment` from a :meth:`snapshot` dict.
+
+        This is the standard way to deep-copy a live environment (take a
+        snapshot then restore it) and is used internally by
+        :func:`~Arena.match.simulate_action` and
+        :meth:`~Arena.match.Session.simulate`.
+
+        Parameters
+        ----------
+        snap:
+            A dict previously returned by :meth:`snapshot`.  The dict is not
+            mutated.
+
+        Returns
+        -------
+        Environment
+            A fully independent environment whose state matches *snap*.
+        """
+        env = cls.__new__(cls)
+        env.max_turns = snap["max_turns"]
+        env.positions = [tuple(p) for p in snap["positions"]]
+        env.goal_rows = list(snap["goal_rows"])
+        env.walls_remaining = list(snap["walls_remaining"])
+        env.horizontal_walls = {tuple(w) for w in snap["walls"]["horizontal"]}
+        env.vertical_walls = {tuple(w) for w in snap["walls"]["vertical"]}
+        env.current_player = snap["current_player"]
+        env.turn_count = snap["turn"]
+        env.done = snap["done"]
+        env.winner = snap["winner"]
+        env.termination_reason = snap["termination_reason"]
+        return env
+
     def get_observation(self, player: Optional[int] = None) -> Dict[str, Any]:
         """Return the complete board from one player's perspective."""
         player = self._player(player)

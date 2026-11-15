@@ -30,6 +30,26 @@ Session mode (you own the game loop, agents live outside)::
     result = session.result                  # MatchResult
     print(result.winner, result.history)     # history == list[TurnRecord]
 
+Instant simulation / rollout (evaluate a candidate action without committing)::
+
+    from Arena import Session, simulate_action
+
+    session = Session()
+    # ... play some turns ...
+    obs = session.observe()
+
+    candidate = {"type": "move", "to": obs["legal_moves"][0]}
+
+    # Standalone helper — pass any snapshot dict
+    rollout = simulate_action(candidate, session.snapshot(), policy0, policy1)
+
+    # Or use the Session convenience method (identical result)
+    rollout = session.simulate(candidate, policy0, policy1)
+
+    print(rollout.winner)        # projected winner
+    print(rollout.total_turns)   # projected game length
+    # session is UNCHANGED — keep playing normally
+
 CLI (run from the wrongway/ directory)::
 
     python -m Arena.cli --player1 submissions/greedy.py --player2 submissions/wall_builder.py --render
@@ -43,6 +63,7 @@ Lower-level access::
 
 from .match import (
     run_simulation,
+    simulate_action,
     Session,
     MatchResult,
     TurnRecord,
@@ -54,6 +75,7 @@ from .visualizer import render_board
 __all__ = [
     # High-level API
     "run_simulation",
+    "simulate_action",
     "Session",
     # Data classes
     "MatchResult",
