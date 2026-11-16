@@ -346,3 +346,12 @@ def choose_action(observation):
     search_elapsed = time.monotonic() - search_start
     write_search_summary(observation.get("turn", 0), search_elapsed)
     return best_action
+
+from typing import Any, Dict
+class MinimaxAgentSummary:
+
+    def __init__(self):
+       pass
+
+    def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+        return choose_action(obs)

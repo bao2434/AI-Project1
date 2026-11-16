@@ -197,3 +197,11 @@ def choose_action(observation):
         }
 
     return {"type": "pass"}
+
+from typing import Any, Dict
+class MCTS_Agent_v7:
+    def __init__(self):
+       pass
+
+    def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+        return choose_action(obs)

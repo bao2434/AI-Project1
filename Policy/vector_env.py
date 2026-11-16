@@ -7,7 +7,7 @@ import random
 import torch
 
 from Arena import Environment
-from Agents.baselines import RandomAgent, ShortestPathAgent, GreedyWallAgent
+from Agents import *
 from .PPO_Policy import PPO_Policy, encode_observation
 from .opponent_pool import OpponentPool
 
@@ -87,16 +87,20 @@ class ParallelGameEnvs:
         """Instantiate an opponent policy callable by name."""
         if opp_type in ("self", "self_play"):
             return None
-        if opp_type in ("shortest_path", "greedy", "fixed_baseline"):
-            return ShortestPathAgent()
-        if opp_type == "random":
-            return RandomAgent()
-        if opp_type == "greedy_wall":
-            return GreedyWallAgent()
+        if opp_type == "hard_waller":
+            return HardWaller()
+        if opp_type == "mcts" or opp_type == "mcts_v7":
+            return MCTS_Agent_v7()
+        if opp_type == "quoridor_mcts":
+            return QuoridorMCTSAgent()
+        if opp_type in ("minimax", "minimax_summary"):
+            return MinimaxAgentSummary()
+        if opp_type in ("wrongway", "wrong_way_bot"):
+            return WrongWayBot()
         if opp_type == "checkpoint_pool":
             return self.opponent_pool.get_opponent_fn()
         # Fallback to shortest path
-        return ShortestPathAgent()
+        return HardWaller()
 
     def _setup_env_for_new_game(self, env_idx: int, is_init: bool = False) -> None:
         """Reset environment and configure starting player and opponent."""

@@ -19,7 +19,7 @@ if WORKSPACE_ROOT not in sys.path:
     sys.path.insert(0, WORKSPACE_ROOT)
 
 from Policy import PPO_Policy, PPOTrainer, evaluate_policy, load_trained_model
-from Agents import RandomAgent, ShortestPathAgent, GreedyWallAgent
+from Agents import *
 
 
 def parse_args():
@@ -179,9 +179,12 @@ def main():
 
     # Build opponent configuration dictionary
     opponent_config = {
-        "self": args.self_envs,
-        "shortest_path": args.baseline_envs,
-        "checkpoint_pool": args.pool_envs,
+        "self": 6,                # Self-play against current PPO policy
+        "hard_waller": 2,         # Hard waller strategic agent
+        "mcts_v7": 2,             # Monte Carlo Tree Search v7
+        "quoridor_mcts": 2,       # Quoridor MCTS agent
+        "minimax_summary": 2,     # Minimax strategic summary agent
+        "wrong_way_bot": 2,       # Exploration / wrong-way bot
     }
 
     # Eval-only mode

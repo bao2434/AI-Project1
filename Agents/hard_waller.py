@@ -379,3 +379,12 @@ def choose_action(observation):
         if m and [m[0], m[1]] in legal_moves:
             return {"type": "move", "to": [m[0], m[1]]}
     return {"type": "move", "to": list(legal_moves[0])}
+
+from typing import Any, Dict
+class HardWaller:
+
+    def __init__(self):
+       pass
+
+    def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+        return choose_action(obs)

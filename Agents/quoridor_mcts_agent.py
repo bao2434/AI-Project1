@@ -40,6 +40,20 @@ RANDOM_SEED = None
 SIZE = 9
 DIRS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
+class SearchTimeout(Exception):
+    """Raised when iterative deepening reaches the turn deadline."""
+def _walls_to_blocked(h_walls, v_walls):
+    b = set()
+    for r, c in h_walls:
+        for u, v in (((r, c), (r + 1, c)), ((r, c + 1), (r + 1, c + 1))):
+            b.add((u, v))
+            b.add((v, u))
+    for r, c in v_walls:
+        for u, v in (((r, c), (r, c + 1)), ((r + 1, c), (r + 1, c + 1))):
+            b.add((u, v))
+            b.add((v, u))
+    return frozenset(b)
+
 
 # ---------------------------------------------------------------------------
 # State and wall representation
@@ -716,3 +730,12 @@ if __name__ == "__main__":
         "turn": 0,
     }
     print(choose_action(sample))
+
+from typing import Any, Dict
+class QuoridorMCTSAgent:
+
+    def __init__(self):
+       pass
+
+    def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+        return choose_action(obs)

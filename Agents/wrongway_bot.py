@@ -460,3 +460,12 @@ def choose_action(observation: Dict[str, Any]) -> Dict[str, Any]:
             "row": best_candidate["row"],
             "col": best_candidate["col"]
         }
+
+from typing import Any, Dict
+class WrongWayBot:
+
+    def __init__(self):
+       pass
+
+    def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+        return choose_action(obs)

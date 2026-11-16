@@ -6,7 +6,7 @@ from typing import Any, Callable, Dict, List, Optional
 import torch
 
 from Arena import run_simulation
-from Agents.baselines import RandomAgent, ShortestPathAgent, GreedyWallAgent
+from Agents import *
 from .PPO_Policy import PPO_Policy, encode_observation
 
 
@@ -60,9 +60,12 @@ def evaluate_policy(
 
     if opponents is None:
         opponents = {
-            "ShortestPathAgent": ShortestPathAgent(),
-            "RandomAgent": RandomAgent(),
-        }
+        "HardWaller": HardWaller(),
+        "MCTS_Agent_v7": MCTS_Agent_v7(),
+        "MinimaxAgentSummary": MinimaxAgentSummary(),
+        "QuoridorMCTSAgent": QuoridorMCTSAgent(),
+        "WrongWayBot": WrongWayBot(),
+    }
 
     results: Dict[str, Dict[str, float]] = {}
 
