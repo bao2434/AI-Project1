@@ -12,7 +12,8 @@ This document provides a comprehensive analysis and algorithmic breakdown of all
 5. [Agent 3: `quoridor_mcts_agent.py` (Monte Carlo Tree Search with Domain Heuristics)](#5-agent-3-quoridor_mcts_agentpy)
 6. [Agent 4: `hard_waller.py` (Minimax with Robustness & Anti-Oscillation Port)](#6-agent-4-hard_wallerpy)
 7. [Agent 5: `wrongway_bot.py` (Iterative Deepening Negamax with 6-Feature Evaluation)](#7-agent-5-wrongway_botpy)
-8. [Common Utilities & Best Practices](#8-common-utilities--best-practices)
+8. [Agent 6: `value_agent.py` (ValueCNN Minimax Agent using models/value_model.pt)](#8-agent-6-value_agentpy)
+9. [Common Utilities & Best Practices](#9-common-utilities--best-practices)
 
 ---
 
@@ -39,6 +40,7 @@ All agents in this repository adhere to the **Wrongway Arena** standard protocol
 | **`quoridor_mcts_agent.py`** | MCTS (UCT Selection, Backpropagation) | Time limit (0.90s, up to 100k simulations) | 70% forward BFS rollout, 30% backward/random moves; win/loss backpropagation | Intersects shortest-path edges + nearby cells; ranked by net distance gain | Implicitly handled by MCTS tree visit statistics |
 | **`hard_waller.py`** | Alpha-Beta Minimax with Root Scoring | Fixed depth 3 (0.70s limit) | Relative distance ($25\times$), own distance, wall difference, path robustness penalty | Evaluates candidate walls along opponent's BFS path (depth 6) | `worst_wall_delay` path robustness penalty + exponential recent position penalty |
 | **`wrongway_bot.py`** | Iterative Deepening Negamax + $\alpha$-$\beta$ | Depth 1 to 3+ (0.85s limit) | 6-feature linear model (weights from Wrongway App duel9) | Downhill BFS along opponent's shortest path (`botKandidaten`), top 4–8 walls | Dynamic backtracking penalty (`BACKTRACK_PENALTY`) + forward drive bonus |
+| **`value_agent.py`** | Minimax + $\alpha$-$\beta$ Pruning | Iterative up to depth 3+ (0.75s limit) | Deep Convolutional Value Network (`models/value_model.pt`) evaluating 8-plane 9x9 board state | Shortest-path obstruction filter + net gain heuristic ranking (top 2-4 walls) | Anti-oscillation history penalty (`REPEAT_PENALTY = 8.0`) |
 
 ---
 
@@ -168,7 +170,35 @@ Instead of evaluating all $\approx 128$ wall positions:
 
 ---
 
-## 8. Common Utilities & Best Practices
+## 8. Agent 6: `value_agent.py`
+
+### 8.1 Overview
+`value_agent.py` combines **Iterative Deepening Minimax with Alpha-Beta Pruning** and a **Deep Value Convolutional Neural Network (`ValueCNN`)** loaded directly from `models/value_model.pt` (or `models/value_models.pt`).
+
+### 8.2 Dual-Backend Model Loader
+- **PyTorch Acceleration**: Attempts PyTorch CPU/GPU inference when available.
+- **Pure-Python Fallback**: If PyTorch is absent or encounters environment/NumPy issues, it extracts the 10 weight tensors (181,073 float32 parameters) directly from the `.pt` ZIP container using standard library `zipfile` and `struct.unpack`, evaluating the CNN with precomputed 3x3 convolution neighborhoods without any external dependencies.
+
+### 8.3 State Representation (8-Plane Encoding)
+Matches `temp/AI-Project1/training/state_encoder.py`:
+- Plane 0: One-hot acting player position.
+- Plane 1: One-hot opponent pawn position.
+- Plane 2: Placed horizontal wall anchors.
+- Plane 3: Placed vertical wall anchors.
+- Plane 4: Acting player's remaining wall ratio ($w_{\text{me}} / 10$).
+- Plane 5: Opponent's remaining wall ratio ($w_{\text{opp}} / 10$).
+- Plane 6: Acting player's goal row (one-hot row).
+- Plane 7: Elapsed game turn fraction ($\min(1.0, \text{turn}/\text{max\_turns})$).
+
+### 8.4 Search & Pruning
+- **Immediate Win Detection**: Instantly returns pawn moves reaching the goal row.
+- **Heuristic Move Ordering & Wall Pruning**: Prunes wall candidates to top $K$ walls by net BFS path gain to maintain search speed.
+- **Leaf Evaluation**: Deep positions are evaluated by $100.0 \times \text{ValueCNN}(s) \in [-100, +100]$.
+- **Anti-Oscillation**: Subtracts `REPEAT_PENALTY * visit_count` to break repetition loops.
+
+---
+
+## 9. Common Utilities & Best Practices
 
 Across the 5 agents, several shared patterns are critical for Quoridor AI performance:
 
