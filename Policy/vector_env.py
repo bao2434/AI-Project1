@@ -1,9 +1,15 @@
-"""Vectorized parallel game environments for PPO rollout collection."""
+"""Vectorized parallel game environments for PPO rollout collection.
+
+Uses multiprocessing with one process per environment so that expensive opponent
+searches (Minimax, MCTS, HardWaller) run concurrently across CPU cores without
+blocking each other or the main training process.
+"""
 
 from __future__ import annotations
 
+import os
+import multiprocessing as mp
 from typing import Any, Callable, Dict, List, Optional, Tuple
-import random
 import torch
 
 from Arena import Environment
@@ -12,12 +18,166 @@ from .PPO_Policy import PPO_Policy, encode_observation
 from .opponent_pool import OpponentPool
 
 
+def _env_worker(
+    pipe,
+    env_idx: int,
+    opp_type: str,
+    max_turns: int,
+    symmetric_self_play: bool,
+):
+    """Isolated environment worker running in its own OS process."""
+    os.environ["OMP_NUM_THREADS"] = "1"
+    os.environ["MKL_NUM_THREADS"] = "1"
+    torch.set_num_threads(1)
+
+    opp_fn = None
+    if opp_type == "hard_waller":
+        opp_fn = HardWaller()
+    elif opp_type in ("wrongway", "wrong_way_bot"):
+        opp_fn = WrongWayBot()
+    elif opp_type in ("mcts", "mcts_v7"):
+        opp_fn = MCTS_Agent_v7()
+    elif opp_type in ("quoridor_mcts_fast", "quoridor_mcts"):
+        opp_fn = QuoridorMCTSAgent()
+    elif opp_type in ("minimax_d2", "minimax", "minimax_summary"):
+        opp_fn = MinimaxAgentSummary()
+
+    learner_player = 0
+    env = Environment(max_turns=max_turns, starting_player=0)
+    game_id = 0
+
+    def advance_opponent():
+        while not env.done and env.current_player != learner_player:
+            obs = env.get_observation(env.current_player)
+            action = opp_fn(obs) if opp_fn is not None else {"type": "pass"}
+            env.step(action)
+
+    def start_new_game(is_init: bool = False):
+        nonlocal learner_player, env, game_id
+        if not is_init:
+            learner_player = 1 - learner_player
+        else:
+            learner_player = 0
+        env = Environment(max_turns=max_turns, starting_player=0)
+        game_id += 1
+        if opp_type != "self":
+            advance_opponent()
+
+    start_new_game(is_init=True)
+
+    curr_p = env.current_player
+    pipe.send({
+        "type": "init",
+        "env_idx": env_idx,
+        "obs": env.get_observation(curr_p),
+        "curr_player": curr_p,
+        "learner_player": learner_player,
+        "done": env.done,
+        "game_id": game_id,
+    })
+
+    while True:
+        try:
+            cmd = pipe.recv()
+        except (EOFError, KeyboardInterrupt):
+            break
+
+        cmd_type = cmd.get("type")
+        if cmd_type == "close":
+            break
+
+        elif cmd_type == "step":
+            action_dict = cmd["action"]
+            env.step(action_dict)
+
+            # Advance opponent turns if playing fixed bot
+            if opp_type != "self" and not env.done and env.current_player != learner_player:
+                advance_opponent()
+
+            game_ended = env.done
+            winner = env.winner if game_ended else None
+            turns = env.turn_count if game_ended else 0
+            reason = env.termination_reason if game_ended else None
+            ended_game_id = game_id
+
+            if game_ended:
+                start_new_game(is_init=False)
+
+            curr_p = env.current_player
+            pipe.send({
+                "type": "step_result",
+                "env_idx": env_idx,
+                "obs": env.get_observation(curr_p),
+                "curr_player": curr_p,
+                "learner_player": learner_player,
+                "done": game_ended,
+                "winner": winner,
+                "turns": turns,
+                "reason": reason,
+                "game_id": ended_game_id,
+            })
+
+        elif cmd_type == "get_obs":
+            curr_p = env.current_player
+            pipe.send({
+                "type": "obs_result",
+                "env_idx": env_idx,
+                "obs": env.get_observation(curr_p),
+                "curr_player": curr_p,
+                "learner_player": learner_player,
+            })
+
+
+def build_opponent_schedule(opponent_config: Dict[str, int], num_envs: int) -> List[str]:
+    """Distribute opponent types proportionally across num_envs."""
+    total_cfg = sum(opponent_config.values())
+    if total_cfg == num_envs:
+        schedule = []
+        for opp_type, count in opponent_config.items():
+            schedule.extend([opp_type] * count)
+        return schedule
+
+    items = sorted(opponent_config.items(), key=lambda x: x[1], reverse=True)
+    counts = {}
+    allocated = 0
+    for opp, weight in items:
+        cnt = max(1, round(weight / total_cfg * num_envs))
+        counts[opp] = cnt
+        allocated += cnt
+
+    while allocated > num_envs:
+        reduced = False
+        for opp, _ in items:
+            if counts[opp] > 1:
+                counts[opp] -= 1
+                allocated -= 1
+                reduced = True
+                if allocated == num_envs:
+                    break
+        if not reduced:
+            break
+
+    while allocated < num_envs:
+        counts[items[0][0]] += 1
+        allocated += 1
+
+    schedule = []
+    for opp, cnt in counts.items():
+        schedule.extend([opp] * cnt)
+
+    return schedule[:num_envs]
+
+
 class ParallelGameEnvs:
-    """Manages 16 parallel game environments with mixed opponents."""
+    """Manages parallel game environments running in separate OS processes.
+
+    Avoids waiting on stragglers by continuously stepping any ready environment
+    until the total transition target is reached.
+    """
 
     def __init__(
         self,
-        num_envs: int = 16,
+        num_envs: int = 8,
         opponent_config: Optional[Dict[str, int]] = None,
         opponent_pool: Optional[OpponentPool] = None,
         max_turns: int = 500,
@@ -39,112 +199,69 @@ class ParallelGameEnvs:
         self.opponent_pool = opponent_pool or OpponentPool(device=device)
 
         if opponent_config is None:
-            # Default distribution from PPO_TRAINING.md Section 3
+            # Rebalanced default distribution (cheap bots dominant)
             opponent_config = {
-                "self": 8,
-                "shortest_path": 4,
-                "checkpoint_pool": 4,
+                "self": 6,
+                "wrong_way_bot": 3,
+                "hard_waller": 3,
+                "mcts_v7": 2,
+                "quoridor_mcts_fast": 1,
+                "minimax_d2": 1,
             }
         self.opponent_config = opponent_config
+        self.env_opponent_types = build_opponent_schedule(opponent_config, num_envs)
 
-        # Build list of opponent types per environment (total == num_envs)
-        self.env_opponent_types: List[str] = []
-        for opp_type, count in opponent_config.items():
-            self.env_opponent_types.extend([opp_type] * count)
+        # Multiprocessing context
+        self.ctx = mp.get_context("spawn")
+        self.processes: List[mp.Process] = []
+        self.parent_pipes: List[Any] = []
+        self.worker_states: List[Dict[str, Any]] = [{} for _ in range(num_envs)]
+        self.waiting_for_worker: List[bool] = [False for _ in range(num_envs)]
 
-        # Pad or trim if doesn't match num_envs exactly
-        if len(self.env_opponent_types) < num_envs:
-            self.env_opponent_types.extend(["self"] * (num_envs - len(self.env_opponent_types)))
-        elif len(self.env_opponent_types) > num_envs:
-            self.env_opponent_types = self.env_opponent_types[:num_envs]
-
-        # Initialize environment states
-        self.envs: List[Environment] = [
-            Environment(max_turns=max_turns, starting_player=0)
-            for _ in range(num_envs)
-        ]
-        # Which player is the learning agent in this environment (0 or 1)
-        self.learner_players: List[int] = [0 for _ in range(num_envs)]
-        # Active opponent functions for non-self environments
-        self.active_opponents: List[Optional[Callable[[Dict[str, Any]], Dict[str, Any]]]] = [
-            None for _ in range(num_envs)
-        ]
-
-        self.game_ids: List[int] = [0 for _ in range(num_envs)]
-        # In-progress transitions per player: env_idx -> {0: [...], 1: [...]}
+        # In-progress transitions per env and player: env_idx -> {0: [...], 1: [...]}
         self.active_trajectories: List[Dict[int, List[Dict[str, Any]]]] = [
             {0: [], 1: []} for _ in range(num_envs)
         ]
-
-        # Metrics collected during games: env_idx -> list of game outcome dicts
         self.completed_game_stats: List[Dict[str, Any]] = []
 
-        # Setup initial opponents
-        for env_idx in range(num_envs):
-            self._setup_env_for_new_game(env_idx, is_init=True)
+        self._start_workers()
 
-    def _create_opponent_callable(self, opp_type: str) -> Callable[[Dict[str, Any]], Dict[str, Any]]:
-        """Instantiate an opponent policy callable by name."""
-        if opp_type in ("self", "self_play"):
-            return None
-        if opp_type == "hard_waller":
-            return HardWaller()
-        if opp_type == "mcts" or opp_type == "mcts_v7":
-            return MCTS_Agent_v7()
-        if opp_type == "quoridor_mcts":
-            return QuoridorMCTSAgent()
-        if opp_type in ("minimax", "minimax_summary"):
-            return MinimaxAgentSummary()
-        if opp_type in ("wrongway", "wrong_way_bot"):
-            return WrongWayBot()
-        if opp_type == "checkpoint_pool":
-            return self.opponent_pool.get_opponent_fn()
-        # Fallback to shortest path
-        return HardWaller()
+    def _start_workers(self) -> None:
+        """Spawn worker processes and establish IPC pipes."""
+        for env_idx in range(self.num_envs):
+            parent_conn, child_conn = self.ctx.Pipe()
+            opp_type = self.env_opponent_types[env_idx]
+            proc = self.ctx.Process(
+                target=_env_worker,
+                args=(
+                    child_conn,
+                    env_idx,
+                    opp_type,
+                    self.max_turns,
+                    self.symmetric_self_play,
+                ),
+                daemon=True,
+            )
+            proc.start()
+            self.processes.append(proc)
+            self.parent_pipes.append(parent_conn)
 
-    def _setup_env_for_new_game(self, env_idx: int, is_init: bool = False) -> None:
-        """Reset environment and configure starting player and opponent."""
-        opp_type = self.env_opponent_types[env_idx]
-        if is_init:
-            learner = 0
-        else:
-            # Alternate learner player to avoid first-player bias
-            learner = 1 - self.learner_players[env_idx]
+        # Receive init from all workers
+        for env_idx in range(self.num_envs):
+            msg = self.parent_pipes[env_idx].recv()
+            self.worker_states[env_idx] = {
+                "obs": msg["obs"],
+                "curr_player": msg["curr_player"],
+                "learner_player": msg["learner_player"],
+                "game_id": msg["game_id"],
+            }
 
-        self.learner_players[env_idx] = learner
-        self.active_opponents[env_idx] = self._create_opponent_callable(opp_type)
-        self.envs[env_idx] = Environment(max_turns=self.max_turns, starting_player=0)
-        self.game_ids[env_idx] += 1
-        self.active_trajectories[env_idx] = {0: [], 1: []}
-
-        # If opponent starts first, advance through opponent's turn immediately
-        if opp_type != "self":
-            self._advance_opponent_turns(env_idx)
-
-    def _advance_opponent_turns(self, env_idx: int) -> None:
-        """Play opponent turns until it is the learner's turn or game ends."""
-        env = self.envs[env_idx]
-        opp_fn = self.active_opponents[env_idx]
-        learner = self.learner_players[env_idx]
-
-        while not env.done and env.current_player != learner:
-            obs = env.get_observation(env.current_player)
-            action = opp_fn(obs) if opp_fn is not None else {"type": "pass"}
-            env.step(action)
-
-        if env.done:
-            self._handle_game_over(env_idx)
-
-    def _handle_game_over(self, env_idx: int) -> None:
+    def _handle_game_over(self, env_idx: int, winner: Optional[int], turns: int, reason: Optional[str], collected_trajectories: List[Any]) -> None:
         """Assign outcome rewards and finalize trajectories when an episode finishes."""
-        env = self.envs[env_idx]
         opp_type = self.env_opponent_types[env_idx]
-        winner = env.winner
-        turns = env.turn_count
-
-        # Record game stats
+        learner = self.worker_states[env_idx]["learner_player"]
         is_self = (opp_type == "self")
-        learner = self.learner_players[env_idx]
+
         if is_self:
             outcome = "draw" if winner is None else f"player_{winner}"
         else:
@@ -161,12 +278,10 @@ class ParallelGameEnvs:
             "winner": winner,
             "outcome": outcome,
             "turns": turns,
-            "reason": env.termination_reason,
+            "reason": reason,
         })
 
-        # Finalize transitions for each participating player
         traj_dict = self.active_trajectories[env_idx]
-
         if is_self and self.symmetric_self_play:
             players_to_finalize = [0, 1]
         else:
@@ -184,77 +299,74 @@ class ParallelGameEnvs:
                     reward = self.loss_reward
                 last_trans["reward"] = reward
                 last_trans["done"] = True
+                collected_trajectories.append((p_traj, 0.0))
+                traj_dict[p] = []
 
     def collect_rollout(
         self,
         model: PPO_Policy,
-        steps_per_env: int = 512,
+        steps_per_env: int = 1024,
+        total_transitions: Optional[int] = None,
     ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-        """Collect steps_per_env learning transitions from each parallel environment.
+        """Collect transitions across environments without waiting on stragglers.
 
-        Returns
-        -------
-        all_completed_trajectories:
-            List of completed trajectory lists with GAE advantages/returns ready.
-        stats:
-            Rollout statistics (game counts, win rates, etc.)
+        Fast environments contribute more steps, completely removing the idle-wait.
+        Bookkeeping isolates each environment's GAE trajectory.
         """
         model.eval()
+        target_total = total_transitions if total_transitions is not None else self.num_envs * steps_per_env
 
-        # Completed trajectories from all environments: [(traj_list, bootstrap_val), ...]
         collected_trajectories: List[Tuple[List[Dict[str, Any]], float]] = []
-
-        # Track transitions collected per environment during this rollout
-        env_step_counts = [0 for _ in range(self.num_envs)]
-        total_target_transitions = self.num_envs * steps_per_env
-
         self.completed_game_stats.clear()
+        total_collected = 0
 
-        while any(count < steps_per_env for count in env_step_counts):
-            # Gather environments that still need transitions and have an active learner turn
+        while total_collected < target_total:
+            # Check for completed steps from workers
+            for env_idx in range(self.num_envs):
+                if self.waiting_for_worker[env_idx]:
+                    pipe = self.parent_pipes[env_idx]
+                    if pipe.poll():
+                        msg = pipe.recv()
+                        self.waiting_for_worker[env_idx] = False
+                        self.worker_states[env_idx]["obs"] = msg["obs"]
+                        self.worker_states[env_idx]["curr_player"] = msg["curr_player"]
+                        self.worker_states[env_idx]["learner_player"] = msg["learner_player"]
+                        self.worker_states[env_idx]["game_id"] = msg.get("game_id", 0)
+
+                        if msg["done"]:
+                            self._handle_game_over(
+                                env_idx,
+                                msg["winner"],
+                                msg["turns"],
+                                msg["reason"],
+                                collected_trajectories,
+                            )
+
+            # Identify all environments ready for a learner action
             ready_env_indices: List[int] = []
             obs_list: List[Dict[str, Any]] = []
 
             for env_idx in range(self.num_envs):
-                if env_step_counts[env_idx] >= steps_per_env:
+                if self.waiting_for_worker[env_idx]:
                     continue
-
-                env = self.envs[env_idx]
-                if env.done:
-                    # Trajectories were finalized in _handle_game_over; flush them
-                    for p in (0, 1):
-                        if self.active_trajectories[env_idx][p]:
-                            collected_trajectories.append((self.active_trajectories[env_idx][p], 0.0))
-                            self.active_trajectories[env_idx][p] = []
-                    self._setup_env_for_new_game(env_idx)
-                    env = self.envs[env_idx]
-
-                # Check if it's currently a learning agent's turn
                 opp_type = self.env_opponent_types[env_idx]
-                curr_player = env.current_player
+                curr_p = self.worker_states[env_idx]["curr_player"]
+                learner_p = self.worker_states[env_idx]["learner_player"]
 
                 if opp_type == "self":
-                    # Self-play: learner is active (symmetric or one-sided)
-                    if self.symmetric_self_play or curr_player == self.learner_players[env_idx]:
+                    if self.symmetric_self_play or curr_p == learner_p:
                         ready_env_indices.append(env_idx)
-                        obs_list.append(env.get_observation(curr_player))
+                        obs_list.append(self.worker_states[env_idx]["obs"])
                 else:
-                    # Playing against fixed opponent: ensure opponent has finished their turn
-                    if curr_player != self.learner_players[env_idx]:
-                        self._advance_opponent_turns(env_idx)
-                        if self.envs[env_idx].done:
-                            for p in (0, 1):
-                                if self.active_trajectories[env_idx][p]:
-                                    collected_trajectories.append((self.active_trajectories[env_idx][p], 0.0))
-                                    self.active_trajectories[env_idx][p] = []
-                            self._setup_env_for_new_game(env_idx)
-                            continue
-
-                    if not self.envs[env_idx].done and self.envs[env_idx].current_player == self.learner_players[env_idx]:
+                    if curr_p == learner_p:
                         ready_env_indices.append(env_idx)
-                        obs_list.append(self.envs[env_idx].get_observation(self.learner_players[env_idx]))
+                        obs_list.append(self.worker_states[env_idx]["obs"])
 
             if not ready_env_indices:
+                # Wait for at least one worker to send results
+                active_pipes = [self.parent_pipes[i] for i in range(self.num_envs) if self.waiting_for_worker[i]]
+                if active_pipes:
+                    mp.connection.wait(active_pipes, timeout=0.01)
                 continue
 
             # Batch encode observations for all ready environments
@@ -272,7 +384,6 @@ class ParallelGameEnvs:
             globals_tensor = torch.stack(batch_globals).to(self.device)
             masks_tensor = torch.stack(batch_masks).to(self.device)
 
-            # Batched model inference without gradients
             with torch.no_grad():
                 results = model.act(
                     boards_tensor,
@@ -281,17 +392,18 @@ class ParallelGameEnvs:
                     deterministic=False,
                 )
 
-            # Process actions for each environment
+            # Record transitions and dispatch actions to workers
             for i, env_idx in enumerate(ready_env_indices):
+                if total_collected >= target_total:
+                    break
+
                 action_idx = int(results["action"][i].item())
                 log_prob = float(results["log_prob"][i].item())
                 value = float(results["value"][i].item())
 
-                env = self.envs[env_idx]
-                curr_player = env.current_player
+                curr_p = self.worker_states[env_idx]["curr_player"]
                 action_dict = PPO_Policy.decode_action(action_idx)
 
-                # Record transition
                 transition = {
                     "board": batch_boards[i].cpu(),
                     "global_features": batch_globals[i].cpu(),
@@ -302,52 +414,51 @@ class ParallelGameEnvs:
                     "reward": self.step_penalty,
                     "done": False,
                     "truncated": False,
-                    "player_id": curr_player,
-                    "game_id": self.game_ids[env_idx],
+                    "player_id": curr_p,
+                    "game_id": self.worker_states[env_idx]["game_id"],
                 }
 
-                self.active_trajectories[env_idx][curr_player].append(transition)
-                env_step_counts[env_idx] += 1
+                self.active_trajectories[env_idx][curr_p].append(transition)
+                total_collected += 1
 
-                # Advance environment
-                env.step(action_dict)
+                self.parent_pipes[env_idx].send({"type": "step", "action": action_dict})
+                self.waiting_for_worker[env_idx] = True
 
-                if env.done:
-                    self._handle_game_over(env_idx)
-                    for p in (0, 1):
-                        if self.active_trajectories[env_idx][p]:
-                            collected_trajectories.append((self.active_trajectories[env_idx][p], 0.0))
-                            self.active_trajectories[env_idx][p] = []
-                else:
-                    opp_type = self.env_opponent_types[env_idx]
-                    if opp_type != "self" and env.current_player != self.learner_players[env_idx]:
-                        self._advance_opponent_turns(env_idx)
-                        if env.done:
-                            for p in (0, 1):
-                                if self.active_trajectories[env_idx][p]:
-                                    collected_trajectories.append((self.active_trajectories[env_idx][p], 0.0))
-                                    self.active_trajectories[env_idx][p] = []
+        # Drain in-flight worker steps
+        for env_idx in range(self.num_envs):
+            if self.waiting_for_worker[env_idx]:
+                pipe = self.parent_pipes[env_idx]
+                if pipe.poll(timeout=0.5):
+                    msg = pipe.recv()
+                    self.waiting_for_worker[env_idx] = False
+                    self.worker_states[env_idx]["obs"] = msg["obs"]
+                    self.worker_states[env_idx]["curr_player"] = msg["curr_player"]
+                    self.worker_states[env_idx]["learner_player"] = msg["learner_player"]
+                    if msg["done"]:
+                        self._handle_game_over(
+                            env_idx,
+                            msg["winner"],
+                            msg["turns"],
+                            msg["reason"],
+                            collected_trajectories,
+                        )
 
         # Handle rollout cutoff for in-progress games across all environments
         for env_idx in range(self.num_envs):
-            env = self.envs[env_idx]
-            if not env.done:
-                for p in (0, 1):
-                    p_traj = self.active_trajectories[env_idx][p]
-                    if p_traj:
-                        p_traj[-1]["truncated"] = True
-                        # Bootstrap from next state value
-                        next_obs = env.get_observation(p)
-                        with torch.no_grad():
-                            nb, ng, nm = encode_observation(next_obs, device=self.device)
-                            _, v_boot = model(nb, ng)
-                            bootstrap_val = float(v_boot.item())
-                        collected_trajectories.append((p_traj, bootstrap_val))
-                        self.active_trajectories[env_idx][p] = []
+            for p in (0, 1):
+                p_traj = self.active_trajectories[env_idx][p]
+                if p_traj:
+                    p_traj[-1]["truncated"] = True
+                    # Bootstrap from current state value estimate
+                    current_obs = self.worker_states[env_idx]["obs"]
+                    with torch.no_grad():
+                        nb, ng, _ = encode_observation(current_obs, device=self.device)
+                        _, v_boot = model(nb, ng)
+                        bootstrap_val = float(v_boot.item())
+                    collected_trajectories.append((p_traj, bootstrap_val))
+                    self.active_trajectories[env_idx][p] = []
 
-        # Calculate statistics
         rollout_stats = self._summarize_stats()
-
         return collected_trajectories, rollout_stats
 
     def _summarize_stats(self) -> Dict[str, Any]:
@@ -370,8 +481,7 @@ class ParallelGameEnvs:
             elif outcome == "draw":
                 by_opponent[opp]["draws"] += 1
             else:
-                # self-play
-                by_opponent[opp]["wins"] += 1  # someone won or draw
+                by_opponent[opp]["wins"] += 1
 
             by_opponent[opp]["turns"].append(game["turns"])
 
@@ -390,3 +500,23 @@ class ParallelGameEnvs:
             }
 
         return summary
+
+    def close(self) -> None:
+        """Close IPC pipes and terminate worker processes."""
+        for pipe in self.parent_pipes:
+            try:
+                pipe.send({"type": "close"})
+            except Exception:
+                pass
+        for proc in self.processes:
+            try:
+                proc.join(timeout=0.5)
+                if proc.is_alive():
+                    proc.terminate()
+            except Exception:
+                pass
+        self.parent_pipes.clear()
+        self.processes.clear()
+
+    def __del__(self) -> None:
+        self.close()

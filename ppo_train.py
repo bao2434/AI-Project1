@@ -56,14 +56,14 @@ def parse_args():
     parser.add_argument(
         "--num-envs",
         type=int,
-        default=16,
-        help="Number of parallel environments (default: 16).",
+        default=8,
+        help="Number of parallel environments (default: 8, set to CPU core count).",
     )
     parser.add_argument(
         "--steps-per-env",
         type=int,
-        default=512,
-        help="Transitions per environment per rollout (default: 512, total: 8,192).",
+        default=1024,
+        help="Transitions per environment per rollout (default: 1024, total: 8,192).",
     )
     parser.add_argument(
         "--minibatch-size",
@@ -179,43 +179,44 @@ def main():
 
     # Build opponent configuration dictionary
     opponent_config = {
-        "self": 6,                # Self-play against current PPO policy
-        "hard_waller": 2,         # Hard waller strategic agent
-        "mcts_v7": 2,             # Monte Carlo Tree Search v7
-        "quoridor_mcts": 2,       # Quoridor MCTS agent
-        "minimax_summary": 2,     # Minimax strategic summary agent
-        "wrong_way_bot": 2,       # Exploration / wrong-way bot
+        "self": 4,                # Self-play against current PPO policy
+        "wrong_way_bot": 4,       # Exploration / wrong-way bot
+        # "hard_waller": 3,         # Hard waller strategic agent
+        # "mcts_v7": 2,             # Monte Carlo Tree Search v7
+        # "quoridor_mcts_fast": 1,  # Capped Quoridor MCTS agent (~0.1s)
+        # "minimax_d2": 1,          # Capped Minimax depth-2 agent (~0.05-0.1s)
     }
 
     # Eval-only mode
-    if args.eval_only:
-        if not os.path.exists(args.model_file):
-            print(f"Error: Model file '{args.model_file}' not found for evaluation.")
-            sys.exit(1)
-        print(f"Loading model from '{args.model_file}' for evaluation...")
-        model = load_trained_model(args.model_file, device=str(device))
-        opponents = {
-            "ShortestPathAgent": ShortestPathAgent(),
-            "GreedyWallAgent": GreedyWallAgent(),
-            "RandomAgent": RandomAgent(),
-        }
-        results = evaluate_policy(
-            model,
-            opponents=opponents,
-            num_games_per_opponent=20,
-            device=device,
-            deterministic=True,
-        )
-        print("\n=== Evaluation Results ===")
-        for opp_name, metrics in results.items():
-            print(
-                f"{opp_name:18s} | Win: {metrics['win_rate']:5.1%} | "
-                f"Loss: {metrics['loss_rate']:5.1%} | Draw: {metrics['draw_rate']:5.1%} | "
-                f"Avg Turns: {metrics['avg_turns']:.1f}"
-            )
-        return
+    # if args.eval_only:
+    #     if not os.path.exists(args.model_file):
+    #         print(f"Error: Model file '{args.model_file}' not found for evaluation.")
+    #         sys.exit(1)
+    #     print(f"Loading model from '{args.model_file}' for evaluation...")
+    #     model = load_trained_model(args.model_file, device=str(device))
+    #     opponents = {
+    #         "ShortestPathAgent": ShortestPathAgent(),
+    #         "GreedyWallAgent": GreedyWallAgent(),
+    #         "RandomAgent": RandomAgent(),
+    #     }
+    #     results = evaluate_policy(
+    #         model,
+    #         opponents=opponents,
+    #         num_games_per_opponent=20,
+    #         device=device,
+    #         deterministic=True,
+    #     )
+    #     print("\n=== Evaluation Results ===")
+    #     for opp_name, metrics in results.items():
+    #         print(
+    #             f"{opp_name:18s} | Win: {metrics['win_rate']:5.1%} | "
+    #             f"Loss: {metrics['loss_rate']:5.1%} | Draw: {metrics['draw_rate']:5.1%} | "
+    #             f"Avg Turns: {metrics['avg_turns']:.1f}"
+    #         )
+    #     return
 
     # Initialize trainer
+    print("meow")
     trainer = PPOTrainer(
         learning_rate=args.lr,
         gamma=args.gamma,

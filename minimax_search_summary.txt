@@ -1,0 +1,204 @@
+MINIMAX SEARCH STATISTICS
+
+=== TURN 1 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 33405
+Internal nodes: 7379
+Leaf nodes (depth limit): 26026
+Terminal nodes: 0
+Heuristic evaluations: 53553
+BFS calls: 236769
+Pawn moves generated: 27527
+Wall candidates examined: 527374
+Legal wall candidates: 527326
+Wall actions kept after ordering: 132804
+Actions searched: 33399
+Average actions searched per internal node: 4.53
+Alpha-Beta cutoff rate: 82.42%
+Alpha-Beta cutoffs: 6082
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 10 / 0 / 7
+  4: 51 / 0 / 40
+  3: 271 / 0 / 223
+  2: 1212 / 0 / 980
+  1: 5834 / 0 / 4832
+  0: 26026 / 26026 / 0
+
+=== TURN 3 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 37301
+Internal nodes: 7959
+Leaf nodes (depth limit): 29342
+Terminal nodes: 0
+Heuristic evaluations: 59429
+BFS calls: 246628
+Pawn moves generated: 30087
+Wall candidates examined: 574615
+Legal wall candidates: 574570
+Wall actions kept after ordering: 143244
+Actions searched: 37295
+Average actions searched per internal node: 4.69
+Alpha-Beta cutoff rate: 82.21%
+Alpha-Beta cutoffs: 6543
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 9 / 0 / 6
+  4: 51 / 0 / 40
+  3: 276 / 0 / 225
+  2: 1316 / 0 / 1074
+  1: 6306 / 0 / 5198
+  0: 29342 / 29342 / 0
+
+=== TURN 5 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 54514
+Internal nodes: 8884
+Leaf nodes (depth limit): 45630
+Terminal nodes: 0
+Heuristic evaluations: 76901
+BFS calls: 249494
+Pawn moves generated: 31271
+Wall candidates examined: 620013
+Legal wall candidates: 619269
+Wall actions kept after ordering: 159894
+Actions searched: 54508
+Average actions searched per internal node: 6.14
+Alpha-Beta cutoff rate: 75.97%
+Alpha-Beta cutoffs: 6749
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 6 / 0 / 2
+  4: 71 / 0 / 62
+  3: 248 / 0 / 171
+  2: 1960 / 0 / 1746
+  1: 6598 / 0 / 4768
+  0: 45630 / 45630 / 0
+
+=== TURN 7 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 52924
+Internal nodes: 9907
+Leaf nodes (depth limit): 43017
+Terminal nodes: 0
+Heuristic evaluations: 75853
+BFS calls: 261212
+Pawn moves generated: 32836
+Wall candidates examined: 739567
+Legal wall candidates: 738970
+Wall actions kept after ordering: 178308
+Actions searched: 52918
+Average actions searched per internal node: 5.34
+Alpha-Beta cutoff rate: 79.64%
+Alpha-Beta cutoffs: 7890
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 3 / 0 / 0
+  4: 49 / 0 / 41
+  3: 289 / 0 / 219
+  2: 1782 / 0 / 1505
+  1: 7783 / 0 / 6125
+  0: 43017 / 43017 / 0
+
+=== TURN 9 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 53704
+Internal nodes: 9012
+Leaf nodes (depth limit): 44692
+Terminal nodes: 0
+Heuristic evaluations: 69809
+BFS calls: 244537
+Pawn moves generated: 25117
+Wall candidates examined: 638367
+Legal wall candidates: 636407
+Wall actions kept after ordering: 162198
+Actions searched: 53698
+Average actions searched per internal node: 5.96
+Alpha-Beta cutoff rate: 76.39%
+Alpha-Beta cutoffs: 6884
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 3 / 0 / 0
+  4: 43 / 0 / 35
+  3: 223 / 0 / 153
+  2: 1728 / 0 / 1483
+  1: 7014 / 0 / 5213
+  0: 44692 / 44692 / 0
+
+=== TURN 11 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 50186
+Internal nodes: 9295
+Leaf nodes (depth limit): 40891
+Terminal nodes: 0
+Heuristic evaluations: 61624
+BFS calls: 261127
+Pawn moves generated: 20733
+Wall candidates examined: 625826
+Legal wall candidates: 610656
+Wall actions kept after ordering: 167292
+Actions searched: 50180
+Average actions searched per internal node: 5.40
+Alpha-Beta cutoff rate: 79.88%
+Alpha-Beta cutoffs: 7425
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 2 / 0 / 0
+  4: 26 / 0 / 18
+  3: 207 / 0 / 161
+  2: 1415 / 0 / 1115
+  1: 7644 / 0 / 6131
+  0: 40891 / 40891 / 0
+
+=== TURN 13 MINIMAX SEARCH SUMMARY ===
+Elapsed search time: 20.000000 seconds
+Total nodes visited: 72388
+Internal nodes: 10951
+Leaf nodes (depth limit): 61437
+Terminal nodes: 0
+Heuristic evaluations: 84535
+BFS calls: 261839
+Pawn moves generated: 23098
+Wall candidates examined: 730753
+Legal wall candidates: 703002
+Wall actions kept after ordering: 197100
+Actions searched: 72382
+Average actions searched per internal node: 6.61
+Alpha-Beta cutoff rate: 74.10%
+Alpha-Beta cutoffs: 8115
+Maximum ply reached: 6
+Deepest fully completed iteration: 5
+Timed out during search: True
+
+Per-depth statistics (depth: nodes / leaves / cutoffs):
+  6: 1 / 0 / 0
+  5: 3 / 0 / 0
+  4: 42 / 0 / 34
+  3: 200 / 0 / 123
+  2: 1869 / 0 / 1578
+  1: 8836 / 0 / 6380
+  0: 61437 / 61437 / 0

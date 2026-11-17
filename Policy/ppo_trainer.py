@@ -90,18 +90,21 @@ class PPOTrainer:
 
         # Rollout buffer
         self.buffer = RolloutBuffer(gamma=self.gamma, gae_lambda=self.gae_lambda)
+        self.total_target_transitions = self.num_envs * self.steps_per_env
 
         # Training progress counters
         self.current_iteration = 0
         self.total_transitions_collected = 0
 
     def collect_rollout(self) -> Dict[str, Any]:
-        """Collect 512 transitions per environment and compute GAE."""
+        """Collect transitions across environments and compute GAE without waiting on stragglers."""
         self.buffer.clear()
         t0 = time.perf_counter()
 
         trajectories, game_stats = self.envs.collect_rollout(
-            self.model, steps_per_env=self.steps_per_env
+            self.model,
+            steps_per_env=self.steps_per_env,
+            total_transitions=self.total_target_transitions,
         )
 
         # Add each trajectory to buffer (GAE is calculated per trajectory)
@@ -315,12 +318,12 @@ class PPOTrainer:
                 "game_stats": rollout_info["game_stats"],
             }
 
-            # 6. Periodic evaluation against benchmark opponents
+            # 6. Periodic evaluation against benchmark opponents (rarely, ~every 10 iters, ~5 games)
             eval_results = None
-            if eval_opponents and (self.current_iteration % self.eval_interval == 0 or self.current_iteration == 1):
+            if eval_opponents and (self.current_iteration % self.eval_interval == 0):
                 eval_results = evaluate_policy(
                     self.model,
-                    num_games_per_opponent=6,
+                    num_games_per_opponent=5,
                     device=self.device,
                     deterministic=True,
                 )
@@ -357,5 +360,11 @@ class PPOTrainer:
 
         # Always save final model to the single file
         self.save_checkpoint()
+        self.close()
         print(f"\nTraining completed! Model saved to single file: {os.path.abspath(self.save_path)}")
         return metrics_history
+
+    def close(self) -> None:
+        """Clean up environment workers."""
+        if hasattr(self, "envs") and self.envs is not None:
+            self.envs.close()

@@ -647,7 +647,7 @@ def _fallback_action(observation, root_actions):
     return root_actions[0]
 
 
-def choose_action(observation):
+def choose_action(observation, time_limit: float = TIME_LIMIT, max_simulations: int = MAX_SIMULATIONS):
     """
     Wrongway Arena entry point.
 
@@ -659,7 +659,7 @@ def choose_action(observation):
       distances (used only for fallback, if available)
     """
     start = time.monotonic()
-    deadline = start + TIME_LIMIT
+    deadline = start + time_limit
 
     root_actions = _normalize_root_actions(observation)
     if not root_actions:
@@ -682,7 +682,7 @@ def choose_action(observation):
 
         # The supplied JS code runs a fixed number of simulations.
         # In this Python arena adaptation, the wall-clock deadline is primary.
-        mcts.search(MAX_SIMULATIONS)
+        mcts.search(max_simulations)
 
         action = mcts.best_action()
         if action is not None:
@@ -733,9 +733,15 @@ if __name__ == "__main__":
 
 from typing import Any, Dict
 class QuoridorMCTSAgent:
-
-    def __init__(self):
-       pass
+    def __init__(self, time_limit: float = TIME_LIMIT, max_simulations: int = MAX_SIMULATIONS):
+        self.time_limit = time_limit
+        self.max_simulations = max_simulations
 
     def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
-        return choose_action(obs)
+        return choose_action(obs, time_limit=self.time_limit, max_simulations=self.max_simulations)
+
+
+class QuoridorMCTSFastAgent(QuoridorMCTSAgent):
+    """Fast Quoridor MCTS agent for PPO training (~0.08-0.1s/move, ~80 simulations)."""
+    def __init__(self, time_limit: float = 0.08, max_simulations: int = 80):
+        super().__init__(time_limit=time_limit, max_simulations=max_simulations)

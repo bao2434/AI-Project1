@@ -4,7 +4,7 @@ import time
 # ==============================================================================
 # EXPLICIT TUNABLE PARAMETERS
 # ==============================================================================
-TIME_LIMIT = 20.0            # Max search time per turn in seconds (Arena limit is 1.0s)
+TIME_LIMIT = 0.75            # Max search time per turn in seconds (Arena limit is 1.0s)
 MAX_DEPTH = 50               # Iterative deepening maximum depth
 W_DIST = 10.0                # Weight for (opponent_distance - my_distance)
 W_WALL = 2.0                 # Weight for (my_walls_remaining - opponent_walls_remaining)
@@ -324,12 +324,12 @@ def choose_action(observation):
     reset_search_stats()
     global SEARCH_ROOT_DEPTH
     search_start = time.monotonic()
-    if observation.get("turn", 0) <= 1:
-        try:
-            with open(SEARCH_SUMMARY_FILE, "w", encoding="utf-8") as file:
-                file.write("MINIMAX SEARCH STATISTICS\n")
-        except OSError:
-            pass
+    # if observation.get("turn", 0) <= 1:
+    #     try:
+    #         with open(SEARCH_SUMMARY_FILE, "w", encoding="utf-8") as file:
+    #             file.write("MINIMAX SEARCH STATISTICS\n")
+    #     except OSError:
+    #         pass
     for depth in range(1, MAX_DEPTH + 1):
         SEARCH_ROOT_DEPTH = depth
         try:
@@ -343,15 +343,14 @@ def choose_action(observation):
         except SearchTimeout:
             SEARCH_STATS["timed_out"] = True
             break
-    search_elapsed = time.monotonic() - search_start
-    write_search_summary(observation.get("turn", 0), search_elapsed)
+    # search_elapsed = time.monotonic() - search_start
+    # write_search_summary(observation.get("turn", 0), search_elapsed)
     return best_action
 
-from typing import Any, Dict
 class MinimaxAgentSummary:
-
     def __init__(self):
-       pass
+        pass
 
-    def __call__(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+    def __call__(self, obs):
         return choose_action(obs)
+

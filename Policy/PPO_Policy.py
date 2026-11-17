@@ -54,13 +54,7 @@ class CLIPAttention(nn.Module):
         v = split_heads(self.v_proj(x))
 
         # Scaled dot-product attention.
-        attention = torch.matmul(
-            q, k.transpose(-2, -1)
-        ) / math.sqrt(self.head_dim)
-
-        attention = F.softmax(attention, dim=-1)
-
-        output = torch.matmul(attention, v)
+        output = F.scaled_dot_product_attention(q, k, v)
 
         # Merge attention heads.
         output = output.transpose(1, 2).contiguous()
@@ -184,17 +178,19 @@ class CLIPVisionTransformer(nn.Module):
         self._initialize_weights()
 
     def _initialize_weights(self):
-
-        nn.init.xavier_uniform_(
-            self.patch_embedding.weight
-        )
+        nn.init.xavier_uniform_(self.patch_embedding.weight)
 
         for module in self.modules():
             if isinstance(module, nn.Linear):
                 nn.init.xavier_uniform_(module.weight)
-
                 if module.bias is not None:
                     nn.init.zeros_(module.bias)
+
+        # GPT-2 / CLIP style: shrink residual-branch outputs
+        scale = 1.0 / math.sqrt(2 * len(self.encoder))
+        for layer in self.encoder:
+            layer.self_attn.out_proj.weight.data.mul_(scale)
+            layer.mlp[2].weight.data.mul_(scale)
 
     def forward(self, x):
 
@@ -257,10 +253,10 @@ class PPO_Policy(nn.Module):
     def __init__(
         self,
         input_channels=12,
-        embed_dim=64,
-        num_layers=2,
-        num_heads=4,
-        mlp_dim=256
+        embed_dim=256,
+        num_layers=8,
+        num_heads=8,
+        mlp_dim=1024
     ):
         super().__init__()
 
@@ -287,16 +283,21 @@ class PPO_Policy(nn.Module):
         self.fusion_norm = nn.LayerNorm(embed_dim)
 
         # One categorical distribution over all 209 actions.
-        self.policy_head = nn.Linear(
-            embed_dim,
-            self.ACTION_DIM
+        self.policy_head = nn.Sequential(
+            nn.Linear(embed_dim, embed_dim),
+            QuickGELU(),
+            nn.Linear(embed_dim, self.ACTION_DIM),
+        )
+        self.value_head = nn.Sequential(
+            nn.Linear(embed_dim, embed_dim),
+            QuickGELU(),
+            nn.Linear(embed_dim, 1),
         )
 
-        # PPO critic.
-        self.value_head = nn.Linear(
-            embed_dim,
-            1
-        )
+        nn.init.orthogonal_(self.policy_head.weight, gain=0.01)
+        nn.init.zeros_(self.policy_head.bias)
+        nn.init.orthogonal_(self.value_head.weight, gain=1.0)
+        nn.init.zeros_(self.value_head.bias)
 
     def forward(self, board, global_features):
 
@@ -673,123 +674,3 @@ def predict_action(
     )
 
 
-
-
-import time
-
-if __name__ == "__main__":
-
-    device = torch.device("cpu")
-
-    model = PPO_Policy(
-        input_channels=12,
-        embed_dim=64,
-        num_layers=2,
-        num_heads=4,
-        mlp_dim=256
-    ).to(device)
-
-    model.eval()
-
-    # Use your sample observation here.
-    observation = {
-
-        "you": {
-            "position": [4, 4],
-            "goal_row": 8,
-            "walls_remaining": 10
-        },
-
-        "opponent": {
-            "position": [2, 4],
-            "goal_row": 0,
-            "walls_remaining": 10
-        },
-
-        "walls": {
-            "horizontal": [],
-            "vertical": []
-        },
-
-        # Example shortest-path distances.
-        "distances": [
-            [8, 8, 8, 8, 8, 8, 8, 8, 8],
-            [7, 7, 7, 7, 7, 7, 7, 7, 7],
-            [6, 6, 6, 6, 6, 6, 6, 6, 6],
-            [5, 5, 5, 5, 5, 5, 5, 5, 5],
-            [4, 4, 4, 4, 4, 4, 4, 4, 4],
-            [3, 3, 3, 3, 3, 3, 3, 3, 3],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ],
-
-        "turn": 10,
-        "max_turns": 200,
-
-        "player_id": 0,
-        "current_player": 0,
-
-        # Example legal movements.
-        "legal_moves": [
-            [3, 4],
-            [4, 3],
-            [4, 5],
-            [5, 4]
-        ],
-
-        # No legal wall placements in this example.
-        "legal_walls": []
-    }
-
-    # --------------------------------------------------------
-    # Warm-up
-    # --------------------------------------------------------
-
-    for _ in range(5):
-        predict_action(
-            model,
-            observation,
-            device=device,
-            deterministic=True
-        )
-
-    # --------------------------------------------------------
-    # Benchmark prediction
-    # --------------------------------------------------------
-
-    num_runs = 100
-    total_time = 0.0
-
-    for _ in range(num_runs):
-
-        start_time = time.perf_counter()
-
-        action = predict_action(
-            model,
-            observation,
-            device=device,
-            deterministic=True
-        )
-
-        end_time = time.perf_counter()
-
-        elapsed = end_time - start_time
-        total_time += elapsed
-
-    # --------------------------------------------------------
-    # Results
-    # --------------------------------------------------------
-
-    average_time = total_time / num_runs
-
-    print("\n========== PPO Prediction Benchmark ==========")
-
-    print("Predicted action:", action)
-    print(f"Number of runs: {num_runs}")
-    print(f"Total time: {total_time:.6f} seconds")
-    print(f"Average prediction: {average_time * 1000:.3f} ms")
-    print(f"Average prediction: {average_time:.6f} seconds")
-    print(f"Predictions per second: {1 / average_time:.2f}")
-
-    print("==============================================")
