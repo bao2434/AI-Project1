@@ -86,27 +86,3 @@ class Policy_Model(nn.Module):
             logits = logits.masked_fill(~action_mask, float("-inf"))
 
         return logits
-        
-        nn.init.orthogonal_(self.policy_head.weight, gain=0.01)
-        nn.init.zeros_(self.policy_head.bias)
-    
-    def forward(self, board, global_features):
-
-        # Extract spatial representation.
-        visual_features = self.vision_model(board)
-
-        # Extract global representation.
-        global_features = self.global_projection(
-            global_features
-        )
-
-        # Fuse both representations.
-        features = self.fusion_norm(
-            visual_features + global_features
-        )
-
-        logits = self.policy_head(features)
-
-        return logits
-
-
