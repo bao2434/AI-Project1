@@ -1,0 +1,40 @@
+{
+  "description": "Search-distilled labels; same POV as acting player, NOT win probabilities",
+  "original_rows": 9115,
+  "original_games": 126,
+  "selected": 800,
+  "selected_games": 126,
+  "saved": 800,
+  "skipped_min_depth": 0,
+  "teacher_timeouts": 0,
+  "unique_games_saved": 126,
+  "depth_counts": {
+    "2": 800
+  },
+  "outcome_counts": {
+    "1": 402,
+    "-1": 398
+  },
+  "teacher_value_mean": -0.07018739825,
+  "teacher_value_std": 0.6826007463055608,
+  "settings": {
+    "data": "training/datasets/v3_source/states.jsonl",
+    "teacher": "Agents/minimax_tt_cached.py",
+    "out": "training/datasets/search_v3_fixed",
+    "per_game": 8,
+    "max_states": 800,
+    "max_games": 0,
+    "max_depth": 2,
+    "min_depth": 2,
+    "time_limit": 0.5,
+    "scale": 40.0,
+    "seed": 42,
+    "min_games": 30,
+    "min_selected": 300,
+    "min_labels": 250,
+    "min_labeled_games": 25
+  },
+  "teacher_file": "/kaggle/working/AI-Project1/Agents/minimax_tt_cached.py",
+  "input_file": "/kaggle/working/AI-Project1/training/datasets/v3_source/states.jsonl",
+  "output_file": "/kaggle/working/AI-Project1/training/datasets/search_v3_fixed/states_search.jsonl"
+}

@@ -1,0 +1,24 @@
+{
+  "config": {
+    "agents": [
+      "bfs_heuristic",
+      "mcts_agent-v7"
+    ],
+    "games_per_pair": 2,
+    "opening_random_plies": 6,
+    "opening_wall_prob": 0.1,
+    "max_turns": 500,
+    "seed": 42
+  },
+  "games_played": 2,
+  "games_saved": 2,
+  "duplicate_games_skipped": 0,
+  "invalid_games_skipped": 0,
+  "samples_saved": 149,
+  "label_counts": {
+    "-1": 74,
+    "0": 0,
+    "1": 75
+  },
+  "games_over_one_second": 0
+}

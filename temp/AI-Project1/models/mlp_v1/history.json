@@ -1,0 +1,137 @@
+[
+  {
+    "epoch": 1,
+    "train": {
+      "mse": 0.8746895207667422,
+      "mae": 0.9209137720526626,
+      "sign_accuracy_non_draw": 0.6703078450844091,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 0.9671980200873481,
+      "mae": 0.9778842163085938,
+      "sign_accuracy_non_draw": 0.5088888888888888,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 2,
+    "train": {
+      "mse": 0.6536796175853499,
+      "mae": 0.7636270115841939,
+      "sign_accuracy_non_draw": 0.7904667328699106,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 0.9406813557942708,
+      "mae": 0.9384751213921441,
+      "sign_accuracy_non_draw": 0.6288888888888889,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 3,
+    "train": {
+      "mse": 0.44860800825495944,
+      "mae": 0.5707828650526636,
+      "sign_accuracy_non_draw": 0.8629592850049652,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 1.14408511267768,
+      "mae": 0.9602838389078776,
+      "sign_accuracy_non_draw": 0.5333333333333333,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 4,
+    "train": {
+      "mse": 0.30111478599086183,
+      "mae": 0.4160405341776267,
+      "sign_accuracy_non_draw": 0.9001986097318768,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 1.0754295624627008,
+      "mae": 0.8833398225572374,
+      "sign_accuracy_non_draw": 0.5733333333333334,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 5,
+    "train": {
+      "mse": 0.30627694456674376,
+      "mae": 0.3643880614931321,
+      "sign_accuracy_non_draw": 0.8704071499503475,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 0.9727909469604492,
+      "mae": 0.7971713426378039,
+      "sign_accuracy_non_draw": 0.6911111111111111,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 6,
+    "train": {
+      "mse": 0.2590978777751904,
+      "mae": 0.3324513118103694,
+      "sign_accuracy_non_draw": 0.8967229394240318,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 1.006005736456977,
+      "mae": 0.7971917724609375,
+      "sign_accuracy_non_draw": 0.6533333333333333,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 7,
+    "train": {
+      "mse": 0.2087756320760172,
+      "mae": 0.27488492569833434,
+      "sign_accuracy_non_draw": 0.923038728897716,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 1.1565969064500596,
+      "mae": 0.8419527180989583,
+      "sign_accuracy_non_draw": 0.6244444444444445,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 8,
+    "train": {
+      "mse": 0.21030272130577898,
+      "mae": 0.2516395517707226,
+      "sign_accuracy_non_draw": 0.9215491559086395,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 1.0326968595716688,
+      "mae": 0.7663403998480903,
+      "sign_accuracy_non_draw": 0.6533333333333333,
+      "states": 450
+    }
+  },
+  {
+    "epoch": 9,
+    "train": {
+      "mse": 0.25577232357051666,
+      "mae": 0.2572921650648827,
+      "sign_accuracy_non_draw": 0.9056603773584906,
+      "states": 2014
+    },
+    "validation": {
+      "mse": 1.462272944185469,
+      "mae": 0.9232897917429607,
+      "sign_accuracy_non_draw": 0.54,
+      "states": 450
+    }
+  }
+]

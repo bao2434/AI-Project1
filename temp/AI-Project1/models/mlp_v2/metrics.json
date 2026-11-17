@@ -1,0 +1,38 @@
+{
+  "model": "mlp",
+  "seed": 42,
+  "best_epoch": 1,
+  "best_validation_mse": 1.0842656049972925,
+  "counts": {
+    "train": {
+      "games": 88,
+      "states": 6652
+    },
+    "validation": {
+      "games": 19,
+      "states": 1248
+    },
+    "test": {
+      "games": 19,
+      "states": 1215
+    }
+  },
+  "train": {
+    "mse": 0.7454483699741238,
+    "mae": 0.803709580678934,
+    "sign_accuracy_non_draw": 0.7269993986770896,
+    "states": 6652
+  },
+  "validation": {
+    "mse": 1.0842656049972925,
+    "mae": 0.975771366021572,
+    "sign_accuracy_non_draw": 0.5272435897435898,
+    "states": 1248
+  },
+  "test": {
+    "mse": 0.8907824606561857,
+    "mae": 0.8544266626177501,
+    "sign_accuracy_non_draw": 0.6148148148148148,
+    "states": 1215
+  }
+}

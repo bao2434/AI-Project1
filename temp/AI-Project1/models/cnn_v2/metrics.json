@@ -1,0 +1,38 @@
+{
+  "model": "cnn",
+  "seed": 42,
+  "best_epoch": 2,
+  "best_validation_mse": 0.9782270468198336,
+  "counts": {
+    "train": {
+      "games": 88,
+      "states": 6652
+    },
+    "validation": {
+      "games": 19,
+      "states": 1248
+    },
+    "test": {
+      "games": 19,
+      "states": 1215
+    }
+  },
+  "train": {
+    "mse": 0.8710537610538595,
+    "mae": 0.8953197603116749,
+    "sign_accuracy_non_draw": 0.6459711365003007,
+    "states": 6652
+  },
+  "validation": {
+    "mse": 0.9782270468198336,
+    "mae": 0.9378573894500732,
+    "sign_accuracy_non_draw": 0.6594551282051282,
+    "states": 1248
+  },
+  "test": {
+    "mse": 0.8701832963605967,
+    "mae": 0.8772025967821663,
+    "sign_accuracy_non_draw": 0.6288065843621399,
+    "states": 1215
+  }
+}

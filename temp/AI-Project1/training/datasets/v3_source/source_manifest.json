@@ -1,0 +1,107 @@
+{
+  "chosen_source": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/v2/states.jsonl",
+  "destination": "/kaggle/working/AI-Project1/training/datasets/v3_source/states.jsonl",
+  "sha256": "837598ca0192329c095a56ba80ec0ae48effcca755aea92db060f209db1fcf3d",
+  "chosen": {
+    "path": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/v2/states.jsonl",
+    "games": 126,
+    "states": 9115,
+    "outcome_counts": {
+      "-1": 4528,
+      "1": 4587
+    }
+  },
+  "candidates": [
+    {
+      "path": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/v2/states.jsonl",
+      "games": 126,
+      "states": 9115,
+      "outcome_counts": {
+        "-1": 4528,
+        "1": 4587
+      }
+    },
+    {
+      "path": "/kaggle/working/AI-Project1/training/datasets/v2/states.jsonl",
+      "games": 126,
+      "states": 9115,
+      "outcome_counts": {
+        "-1": 4528,
+        "1": 4587
+      }
+    },
+    {
+      "path": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/archive/AI-Project1/training/datasets/v1/states.jsonl",
+      "games": 4,
+      "states": 178,
+      "outcome_counts": {
+        "1": 90,
+        "-1": 88
+      }
+    },
+    {
+      "path": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/v1/states.jsonl",
+      "games": 4,
+      "states": 178,
+      "outcome_counts": {
+        "1": 90,
+        "-1": 88
+      }
+    },
+    {
+      "path": "/kaggle/input/notebooks/vntrangphm/minimax-cnn-2/AI-Project1/training/datasets/v1/states.jsonl",
+      "games": 4,
+      "states": 178,
+      "outcome_counts": {
+        "1": 90,
+        "-1": 88
+      }
+    },
+    {
+      "path": "/kaggle/working/AI-Project1/training/datasets/v1/states.jsonl",
+      "games": 4,
+      "states": 178,
+      "outcome_counts": {
+        "1": 90,
+        "-1": 88
+      }
+    },
+    {
+      "path": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/archive/AI-Project1/training/datasets/smoke/states.jsonl",
+      "games": 2,
+      "states": 149,
+      "outcome_counts": {
+        "1": 75,
+        "-1": 74
+      }
+    },
+    {
+      "path": "/kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/smoke/states.jsonl",
+      "games": 2,
+      "states": 149,
+      "outcome_counts": {
+        "1": 75,
+        "-1": 74
+      }
+    },
+    {
+      "path": "/kaggle/input/notebooks/vntrangphm/minimax-cnn-2/AI-Project1/training/datasets/smoke/states.jsonl",
+      "games": 2,
+      "states": 149,
+      "outcome_counts": {
+        "1": 75,
+        "-1": 74
+      }
+    },
+    {
+      "path": "/kaggle/working/AI-Project1/training/datasets/smoke/states.jsonl",
+      "games": 2,
+      "states": 149,
+      "outcome_counts": {
+        "1": 75,
+        "-1": 74
+      }
+    }
+  ],
+  "note": "Single source selected to avoid duplicated games or overlapping game IDs."
+}

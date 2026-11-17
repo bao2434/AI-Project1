@@ -1,0 +1,3142 @@
+{
+  "experiment": "minimax_paired_agents_ablation",
+  "config": {
+    "agent_baseline": "Agents/minimax_tt.py",
+    "agent_challenger": "Agents/minimax_tt_cached.py",
+    "openings": 20,
+    "opening_plies": 8,
+    "wall_prob": 0.35,
+    "max_turns": 500,
+    "seed": 13016,
+    "timeout": 1.0,
+    "startup_timeout": 6.0,
+    "probe_openings": 3,
+    "probe_only": false,
+    "out": "tests/tt_cache_vs_tt.json"
+  },
+  "agents": {
+    "v2": "/kaggle/working/AI-Project1/Agents/minimax_tt.py",
+    "v3_tt": "/kaggle/working/AI-Project1/Agents/minimax_tt_cached.py"
+  },
+  "openings": [
+    {
+      "id": 1,
+      "seed": 13016,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            6,
+            3
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          8
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              1,
+              7
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "vertical": [
+            [
+              2,
+              6
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 2,
+      "seed": 20935,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            4,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          10,
+          10
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": []
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 3,
+      "seed": 28854,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            8,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          7,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "vertical": []
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 4,
+      "seed": 36773,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            6,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              6,
+              1
+            ]
+          ],
+          "vertical": [
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              7
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 5,
+      "seed": 44692,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          9
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              3,
+              7
+            ],
+            [
+              5,
+              5
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 6,
+      "seed": 52611,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          7
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              4,
+              3
+            ]
+          ],
+          "vertical": [
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 7,
+      "seed": 60530,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            7,
+            5
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              4,
+              4
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              6
+            ]
+          ],
+          "vertical": []
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 8,
+      "seed": 68449,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          8
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              2,
+              5
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 9,
+      "seed": 76368,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            6,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              5,
+              6
+            ],
+            [
+              7,
+              1
+            ]
+          ],
+          "vertical": [
+            [
+              0,
+              3
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 10,
+      "seed": 84287,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          10
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              3,
+              7
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 11,
+      "seed": 92206,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            8,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          6,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              4
+            ]
+          ],
+          "vertical": [
+            [
+              1,
+              6
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              4
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 12,
+      "seed": 100125,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          9
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              3,
+              5
+            ],
+            [
+              6,
+              4
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 13,
+      "seed": 108044,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          10
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              1,
+              3
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 14,
+      "seed": 115963,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            7,
+            5
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          8
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              0,
+              1
+            ],
+            [
+              5,
+              6
+            ]
+          ],
+          "vertical": [
+            [
+              1,
+              4
+            ],
+            [
+              3,
+              3
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 15,
+      "seed": 123882,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            4,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          10,
+          7
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              6,
+              1
+            ]
+          ],
+          "vertical": []
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 16,
+      "seed": 131801,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            6,
+            4
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          10
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              1,
+              7
+            ],
+            [
+              4,
+              6
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 17,
+      "seed": 139720,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            6,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          9
+        ],
+        "walls": {
+          "horizontal": [],
+          "vertical": [
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              6
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 18,
+      "seed": 147639,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            6,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          7
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              4,
+              5
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              6
+            ]
+          ],
+          "vertical": [
+            [
+              3,
+              6
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 19,
+      "seed": 155558,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            5,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          9,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              1,
+              2
+            ]
+          ],
+          "vertical": [
+            [
+              7,
+              7
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    },
+    {
+      "id": 20,
+      "seed": 163477,
+      "snapshot": {
+        "board_size": 9,
+        "positions": [
+          [
+            8,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "goal_rows": [
+          0,
+          8
+        ],
+        "walls_remaining": [
+          8,
+          9
+        ],
+        "walls": {
+          "horizontal": [
+            [
+              0,
+              1
+            ]
+          ],
+          "vertical": [
+            [
+              1,
+              1
+            ],
+            [
+              3,
+              7
+            ]
+          ]
+        },
+        "current_player": 0,
+        "turn": 8,
+        "max_turns": 500,
+        "done": false,
+        "winner": null,
+        "termination_reason": null
+      }
+    }
+  ],
+  "probes": [
+    {
+      "opening_id": 1,
+      "opening_seed": 13016,
+      "variant": "v2",
+      "legal_action": true,
+      "elapsed": 0.75003,
+      "action": {
+        "type": "wall",
+        "orientation": "H",
+        "row": 1,
+        "col": 5
+      },
+      "stats": {
+        "nodes": 778,
+        "internal_nodes": 118,
+        "leaf_nodes": 660,
+        "terminal_nodes": 0,
+        "heuristic_evaluations": 1072,
+        "bfs_calls": 11040,
+        "generated_pawn_moves": 412,
+        "wall_candidates_examined": 15102,
+        "wall_candidates_preselected": 4212,
+        "legal_wall_candidates": 4189,
+        "wall_actions_kept": 2106,
+        "actions_searched": 774,
+        "alpha_beta_cutoffs": 83,
+        "max_ply_reached": 4,
+        "completed_depth": 3,
+        "timed_out": true,
+        "tt_hits": 26,
+        "tt_exact_hits": 0,
+        "tt_bound_cutoffs": 0,
+        "tt_stores": 112,
+        "tt_move_first": 25
+      },
+      "tt_entries": 88
+    },
+    {
+      "opening_id": 1,
+      "opening_seed": 13016,
+      "variant": "v3_tt",
+      "legal_action": true,
+      "elapsed": 0.75017,
+      "action": {
+        "type": "wall",
+        "orientation": "H",
+        "row": 1,
+        "col": 5
+      },
+      "stats": {
+        "nodes": 1274,
+        "internal_nodes": 184,
+        "leaf_nodes": 1090,
+        "terminal_nodes": 0,
+        "heuristic_evaluations": 1721,
+        "bfs_calls": 9144,
+        "generated_pawn_moves": 631,
+        "wall_candidates_examined": 23552,
+        "wall_candidates_preselected": 6624,
+        "legal_wall_candidates": 6573,
+        "wall_actions_kept": 3294,
+        "actions_searched": 1270,
+        "alpha_beta_cutoffs": 126,
+        "max_ply_reached": 4,
+        "completed_depth": 3,
+        "timed_out": true,
+        "tt_hits": 46,
+        "tt_exact_hits": 0,
+        "tt_bound_cutoffs": 0,
+        "tt_stores": 177,
+        "tt_move_first": 46,
+        "bfs_cache_hits": 8000,
+        "shortest_edges_cache_hits": 132
+      },
+      "tt_entries": 133
+    },
+    {
+      "opening_id": 2,
+      "opening_seed": 20935,
+      "variant": "v2",
+      "legal_action": true,
+      "elapsed": 0.75005,
+      "action": {
+        "type": "move",
+        "to": [
+          3,
+          4
+        ]
+      },
+      "stats": {
+        "nodes": 1419,
+        "internal_nodes": 193,
+        "leaf_nodes": 1226,
+        "terminal_nodes": 0,
+        "heuristic_evaluations": 1895,
+        "bfs_calls": 18456,
+        "generated_pawn_moves": 669,
+        "wall_candidates_examined": 24704,
+        "wall_candidates_preselected": 6948,
+        "legal_wall_candidates": 6947,
+        "wall_actions_kept": 3456,
+        "actions_searched": 1415,
+        "alpha_beta_cutoffs": 131,
+        "max_ply_reached": 4,
+        "completed_depth": 3,
+        "timed_out": true,
+        "tt_hits": 48,
+        "tt_exact_hits": 0,
+        "tt_bound_cutoffs": 0,
+        "tt_stores": 187,
+        "tt_move_first": 48
+      },
+      "tt_entries": 140
+    },
+    {
+      "opening_id": 2,
+      "opening_seed": 20935,
+      "variant": "v3_tt",
+      "legal_action": true,
+      "elapsed": 0.75174,
+      "action": {
+        "type": "move",
+        "to": [
+          3,
+          4
+        ]
+      },
+      "stats": {
+        "nodes": 1604,
+        "internal_nodes": 268,
+        "leaf_nodes": 1332,
+        "terminal_nodes": 0,
+        "heuristic_evaluations": 2223,
+        "bfs_calls": 12883,
+        "generated_pawn_moves": 891,
+        "wall_candidates_examined": 34304,
+        "wall_candidates_preselected": 9648,
+        "legal_wall_candidates": 9638,
+        "wall_actions_kept": 4806,
+        "actions_searched": 1600,
+        "alpha_beta_cutoffs": 200,
+        "max_ply_reached": 4,
+        "completed_depth": 3,
+        "timed_out": true,
+        "tt_hits": 58,
+        "tt_exact_hits": 0,
+        "tt_bound_cutoffs": 4,
+        "tt_stores": 261,
+        "tt_move_first": 54,
+        "bfs_cache_hits": 11491,
+        "shortest_edges_cache_hits": 210
+      },
+      "tt_entries": 209
+    },
+    {
+      "opening_id": 3,
+      "opening_seed": 28854,
+      "variant": "v2",
+      "legal_action": true,
+      "elapsed": 0.75072,
+      "action": {
+        "type": "wall",
+        "orientation": "V",
+        "row": 1,
+        "col": 4
+      },
+      "stats": {
+        "nodes": 751,
+        "internal_nodes": 110,
+        "leaf_nodes": 641,
+        "terminal_nodes": 0,
+        "heuristic_evaluations": 969,
+        "bfs_calls": 10226,
+        "generated_pawn_moves": 328,
+        "wall_candidates_examined": 13952,
+        "wall_candidates_preselected": 3924,
+        "legal_wall_candidates": 3923,
+        "wall_actions_kept": 1962,
+        "actions_searched": 747,
+        "alpha_beta_cutoffs": 76,
+        "max_ply_reached": 3,
+        "completed_depth": 3,
+        "timed_out": true,
+        "tt_hits": 22,
+        "tt_exact_hits": 0,
+        "tt_bound_cutoffs": 0,
+        "tt_stores": 105,
+        "tt_move_first": 21
+      },
+      "tt_entries": 84
+    },
+    {
+      "opening_id": 3,
+      "opening_seed": 28854,
+      "variant": "v3_tt",
+      "legal_action": true,
+      "elapsed": 0.75013,
+      "action": {
+        "type": "wall",
+        "orientation": "V",
+        "row": 1,
+        "col": 4
+      },
+      "stats": {
+        "nodes": 969,
+        "internal_nodes": 163,
+        "leaf_nodes": 806,
+        "terminal_nodes": 0,
+        "heuristic_evaluations": 1291,
+        "bfs_calls": 8842,
+        "generated_pawn_moves": 485,
+        "wall_candidates_examined": 20864,
+        "wall_candidates_preselected": 5868,
+        "legal_wall_candidates": 5863,
+        "wall_actions_kept": 2916,
+        "actions_searched": 965,
+        "alpha_beta_cutoffs": 119,
+        "max_ply_reached": 4,
+        "completed_depth": 3,
+        "timed_out": true,
+        "tt_hits": 28,
+        "tt_exact_hits": 0,
+        "tt_bound_cutoffs": 0,
+        "tt_stores": 156,
+        "tt_move_first": 28,
+        "bfs_cache_hits": 5924,
+        "shortest_edges_cache_hits": 98
+      },
+      "tt_entries": 130
+    }
+  ],
+  "summary": {
+    "games": 40,
+    "wins": 22,
+    "draws": 0,
+    "losses": 18,
+    "score_rate": 0.55,
+    "tt_p0_wins": 11,
+    "tt_p1_wins": 11,
+    "tt_mean_latency": 0.6554120139138571,
+    "tt_timeouts": 0,
+    "tt_invalid": 0,
+    "opening_pair_outcomes": {
+      "0 wins / 0 draws": 1,
+      "1 wins / 0 draws": 16,
+      "2 wins / 0 draws": 3
+    }
+  },
+  "games": [
+    {
+      "opening_id": 1,
+      "opening_seed": 13016,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 84,
+      "turns_after_opening": 76,
+      "statuses": [
+        {
+          "ok": 38,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 38,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 29
+        },
+        {
+          "move": 30,
+          "wall": 8
+        }
+      ],
+      "time_mean": [
+        0.6250812170263113,
+        0.7003000744210496
+      ],
+      "time_max": [
+        0.752637907999997,
+        0.7528278329999694
+      ],
+      "actions_timed": [
+        38,
+        38
+      ]
+    },
+    {
+      "opening_id": 1,
+      "opening_seed": 13016,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 87,
+      "turns_after_opening": 79,
+      "statuses": [
+        {
+          "ok": 40,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 39,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 31
+        },
+        {
+          "move": 31,
+          "wall": 8
+        }
+      ],
+      "time_mean": [
+        0.7061791063749923,
+        0.6563257958717912
+      ],
+      "time_max": [
+        0.75254492199997,
+        0.757469025999967
+      ],
+      "actions_timed": [
+        40,
+        39
+      ]
+    },
+    {
+      "opening_id": 2,
+      "opening_seed": 20935,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 67,
+      "turns_after_opening": 59,
+      "statuses": [
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 29,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 20,
+          "wall": 10
+        },
+        {
+          "move": 19,
+          "wall": 10
+        }
+      ],
+      "time_mean": [
+        0.49631165676666267,
+        0.6696629613103408
+      ],
+      "time_max": [
+        0.7545315499999106,
+        0.7526056880000169
+      ],
+      "actions_timed": [
+        30,
+        29
+      ]
+    },
+    {
+      "opening_id": 2,
+      "opening_seed": 20935,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 67,
+      "turns_after_opening": 59,
+      "statuses": [
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 29,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 20,
+          "wall": 10
+        },
+        {
+          "move": 19,
+          "wall": 10
+        }
+      ],
+      "time_mean": [
+        0.6597963935666599,
+        0.504986054379311
+      ],
+      "time_max": [
+        0.7526860340000212,
+        0.7529553890000216
+      ],
+      "actions_timed": [
+        30,
+        29
+      ]
+    },
+    {
+      "opening_id": 3,
+      "opening_seed": 28854,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 68,
+      "turns_after_opening": 60,
+      "statuses": [
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 7,
+          "move": 23
+        },
+        {
+          "wall": 9,
+          "move": 21
+        }
+      ],
+      "time_mean": [
+        0.6027516590999956,
+        0.7045030839000106
+      ],
+      "time_max": [
+        0.7524780300000202,
+        0.7528408619999709
+      ],
+      "actions_timed": [
+        30,
+        30
+      ]
+    },
+    {
+      "opening_id": 3,
+      "opening_seed": 28854,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 68,
+      "turns_after_opening": 60,
+      "statuses": [
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 7,
+          "move": 23
+        },
+        {
+          "wall": 9,
+          "move": 21
+        }
+      ],
+      "time_mean": [
+        0.7120009284333264,
+        0.6020650540666831
+      ],
+      "time_max": [
+        0.7528497799999059,
+        0.7527304980000054
+      ],
+      "actions_timed": [
+        30,
+        30
+      ]
+    },
+    {
+      "opening_id": 4,
+      "opening_seed": 36773,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 63,
+      "turns_after_opening": 55,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 27,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 20
+        },
+        {
+          "move": 20,
+          "wall": 7
+        }
+      ],
+      "time_mean": [
+        0.7254108217500053,
+        0.7520079977407561
+      ],
+      "time_max": [
+        0.761347494000006,
+        0.7530804399999624
+      ],
+      "actions_timed": [
+        28,
+        27
+      ]
+    },
+    {
+      "opening_id": 4,
+      "opening_seed": 36773,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 58,
+      "turns_after_opening": 50,
+      "statuses": [
+        {
+          "ok": 25,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 25,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 17
+        },
+        {
+          "move": 17,
+          "wall": 8
+        }
+      ],
+      "time_mean": [
+        0.7517768914800171,
+        0.7222731004399793
+      ],
+      "time_max": [
+        0.7531912829999783,
+        0.7574475510000411
+      ],
+      "actions_timed": [
+        25,
+        25
+      ]
+    },
+    {
+      "opening_id": 5,
+      "opening_seed": 44692,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 71,
+      "turns_after_opening": 63,
+      "statuses": [
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 31,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 23
+        },
+        {
+          "wall": 9,
+          "move": 22
+        }
+      ],
+      "time_mean": [
+        0.5160141908437552,
+        0.7147632013548321
+      ],
+      "time_max": [
+        0.7544958270000279,
+        0.7573207660000207
+      ],
+      "actions_timed": [
+        32,
+        31
+      ]
+    },
+    {
+      "opening_id": 5,
+      "opening_seed": 44692,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 63,
+      "turns_after_opening": 55,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 27,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 19
+        },
+        {
+          "wall": 9,
+          "move": 18
+        }
+      ],
+      "time_mean": [
+        0.7051616237142875,
+        0.5839651537407328
+      ],
+      "time_max": [
+        0.7579568820000304,
+        0.7526035270000193
+      ],
+      "actions_timed": [
+        28,
+        27
+      ]
+    },
+    {
+      "opening_id": 6,
+      "opening_seed": 52611,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 68,
+      "turns_after_opening": 60,
+      "statuses": [
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 21
+        },
+        {
+          "move": 23,
+          "wall": 7
+        }
+      ],
+      "time_mean": [
+        0.751546822333349,
+        0.7265962335666661
+      ],
+      "time_max": [
+        0.7528676180000957,
+        0.7526116710000679
+      ],
+      "actions_timed": [
+        30,
+        30
+      ]
+    },
+    {
+      "opening_id": 6,
+      "opening_seed": 52611,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 64,
+      "turns_after_opening": 56,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 20
+        },
+        {
+          "wall": 7,
+          "move": 21
+        }
+      ],
+      "time_mean": [
+        0.7364517718571376,
+        0.7088055944642642
+      ],
+      "time_max": [
+        0.7524437770000532,
+        0.7528525039999749
+      ],
+      "actions_timed": [
+        28,
+        28
+      ]
+    },
+    {
+      "opening_id": 7,
+      "opening_seed": 60530,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 72,
+      "turns_after_opening": 64,
+      "statuses": [
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 24
+        },
+        {
+          "wall": 9,
+          "move": 23
+        }
+      ],
+      "time_mean": [
+        0.7303238756875032,
+        0.728186234374995
+      ],
+      "time_max": [
+        0.7521702229998937,
+        0.7525971759998811
+      ],
+      "actions_timed": [
+        32,
+        32
+      ]
+    },
+    {
+      "opening_id": 7,
+      "opening_seed": 60530,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 72,
+      "turns_after_opening": 64,
+      "statuses": [
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 24
+        },
+        {
+          "wall": 9,
+          "move": 23
+        }
+      ],
+      "time_mean": [
+        0.7515198754999943,
+        0.6909530378437339
+      ],
+      "time_max": [
+        0.7529665810000097,
+        0.7528495330000169
+      ],
+      "actions_timed": [
+        32,
+        32
+      ]
+    },
+    {
+      "opening_id": 8,
+      "opening_seed": 68449,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 45,
+      "turns_after_opening": 37,
+      "statuses": [
+        {
+          "ok": 19,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 18,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 10,
+          "wall": 9
+        },
+        {
+          "wall": 5,
+          "move": 13
+        }
+      ],
+      "time_mean": [
+        0.7124487833157817,
+        0.7520496513888525
+      ],
+      "time_max": [
+        0.7529443169999013,
+        0.7528047369999058
+      ],
+      "actions_timed": [
+        19,
+        18
+      ]
+    },
+    {
+      "opening_id": 8,
+      "opening_seed": 68449,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 72,
+      "turns_after_opening": 64,
+      "statuses": [
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 23,
+          "wall": 9
+        },
+        {
+          "wall": 8,
+          "move": 24
+        }
+      ],
+      "time_mean": [
+        0.7216574745937834,
+        0.7068188064687604
+      ],
+      "time_max": [
+        0.7567718010000135,
+        0.7526383179999812
+      ],
+      "actions_timed": [
+        32,
+        32
+      ]
+    },
+    {
+      "opening_id": 9,
+      "opening_seed": 76368,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 60,
+      "turns_after_opening": 52,
+      "statuses": [
+        {
+          "ok": 26,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 26,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 18,
+          "wall": 8
+        },
+        {
+          "move": 17,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.5248648653461644,
+        0.6337209856923122
+      ],
+      "time_max": [
+        0.7530589529999361,
+        0.7531902050000099
+      ],
+      "actions_timed": [
+        26,
+        26
+      ]
+    },
+    {
+      "opening_id": 9,
+      "opening_seed": 76368,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 56,
+      "turns_after_opening": 48,
+      "statuses": [
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 16,
+          "wall": 8
+        },
+        {
+          "move": 15,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.7067724369166797,
+        0.5995205346249955
+      ],
+      "time_max": [
+        0.752824197000109,
+        0.7531080510000265
+      ],
+      "actions_timed": [
+        24,
+        24
+      ]
+    },
+    {
+      "opening_id": 10,
+      "opening_seed": 84287,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 69,
+      "turns_after_opening": 61,
+      "statuses": [
+        {
+          "ok": 31,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 22,
+          "wall": 9
+        },
+        {
+          "move": 20,
+          "wall": 10
+        }
+      ],
+      "time_mean": [
+        0.6064938857419278,
+        0.7398466141333528
+      ],
+      "time_max": [
+        0.7530673220001063,
+        0.753452832999983
+      ],
+      "actions_timed": [
+        31,
+        30
+      ]
+    },
+    {
+      "opening_id": 10,
+      "opening_seed": 84287,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 86,
+      "turns_after_opening": 78,
+      "statuses": [
+        {
+          "ok": 39,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 39,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 30,
+          "wall": 9
+        },
+        {
+          "move": 30,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.7517018711025685,
+        0.7329424740513064
+      ],
+      "time_max": [
+        0.7527853710000727,
+        0.7540461789999426
+      ],
+      "actions_timed": [
+        39,
+        39
+      ]
+    },
+    {
+      "opening_id": 11,
+      "opening_seed": 92206,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 76,
+      "turns_after_opening": 68,
+      "statuses": [
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 6,
+          "move": 28
+        },
+        {
+          "wall": 9,
+          "move": 25
+        }
+      ],
+      "time_mean": [
+        0.7417101434706076,
+        0.7296794650882449
+      ],
+      "time_max": [
+        0.7877711149999413,
+        0.7526336309999806
+      ],
+      "actions_timed": [
+        34,
+        34
+      ]
+    },
+    {
+      "opening_id": 11,
+      "opening_seed": 92206,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 54,
+      "turns_after_opening": 46,
+      "statuses": [
+        {
+          "ok": 23,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 23,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 6,
+          "move": 17
+        },
+        {
+          "wall": 7,
+          "move": 16
+        }
+      ],
+      "time_mean": [
+        0.7518017228260602,
+        0.7197980832174539
+      ],
+      "time_max": [
+        0.7523815619999823,
+        0.7527494630001001
+      ],
+      "actions_timed": [
+        23,
+        23
+      ]
+    },
+    {
+      "opening_id": 12,
+      "opening_seed": 100125,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 59,
+      "turns_after_opening": 51,
+      "statuses": [
+        {
+          "ok": 26,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 25,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 17
+        },
+        {
+          "wall": 9,
+          "move": 16
+        }
+      ],
+      "time_mean": [
+        0.4825085894230789,
+        0.7216939258800085
+      ],
+      "time_max": [
+        0.7554914209999879,
+        0.7523510850001003
+      ],
+      "actions_timed": [
+        26,
+        25
+      ]
+    },
+    {
+      "opening_id": 12,
+      "opening_seed": 100125,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 63,
+      "turns_after_opening": 55,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 27,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 9,
+          "move": 19
+        },
+        {
+          "wall": 6,
+          "move": 21
+        }
+      ],
+      "time_mean": [
+        0.7248849886785739,
+        0.7522283482963353
+      ],
+      "time_max": [
+        0.7523550969999633,
+        0.7566352110000025
+      ],
+      "actions_timed": [
+        28,
+        27
+      ]
+    },
+    {
+      "opening_id": 13,
+      "opening_seed": 108044,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 80,
+      "turns_after_opening": 72,
+      "statuses": [
+        {
+          "ok": 36,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 36,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 28,
+          "wall": 8
+        },
+        {
+          "move": 26,
+          "wall": 10
+        }
+      ],
+      "time_mean": [
+        0.7288474603611171,
+        0.7182940473333335
+      ],
+      "time_max": [
+        0.7758469460000015,
+        0.7527839500000937
+      ],
+      "actions_timed": [
+        36,
+        36
+      ]
+    },
+    {
+      "opening_id": 13,
+      "opening_seed": 108044,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 72,
+      "turns_after_opening": 64,
+      "statuses": [
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 23,
+          "wall": 9
+        },
+        {
+          "move": 22,
+          "wall": 10
+        }
+      ],
+      "time_mean": [
+        0.696642199531226,
+        0.5120780732187526
+      ],
+      "time_max": [
+        0.7525507650000236,
+        0.7547558010001012
+      ],
+      "actions_timed": [
+        32,
+        32
+      ]
+    },
+    {
+      "opening_id": 14,
+      "opening_seed": 115963,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 57,
+      "turns_after_opening": 49,
+      "statuses": [
+        {
+          "ok": 25,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 7,
+          "move": 18
+        },
+        {
+          "wall": 8,
+          "move": 16
+        }
+      ],
+      "time_mean": [
+        0.7222414308400039,
+        0.7518258005000197
+      ],
+      "time_max": [
+        0.7527386460001253,
+        0.7533925029999864
+      ],
+      "actions_timed": [
+        25,
+        24
+      ]
+    },
+    {
+      "opening_id": 14,
+      "opening_seed": 115963,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 63,
+      "turns_after_opening": 55,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 27,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 20
+        },
+        {
+          "wall": 8,
+          "move": 19
+        }
+      ],
+      "time_mean": [
+        0.6535371702499982,
+        0.6064954927407294
+      ],
+      "time_max": [
+        0.7530197329999737,
+        0.7530640760001006
+      ],
+      "actions_timed": [
+        28,
+        27
+      ]
+    },
+    {
+      "opening_id": 15,
+      "opening_seed": 123882,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 69,
+      "turns_after_opening": 61,
+      "statuses": [
+        {
+          "ok": 31,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 30,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 10,
+          "move": 21
+        },
+        {
+          "wall": 7,
+          "move": 23
+        }
+      ],
+      "time_mean": [
+        0.6084644726774088,
+        0.7464527222666599
+      ],
+      "time_max": [
+        0.7524344200000996,
+        0.752381301000014
+      ],
+      "actions_timed": [
+        31,
+        30
+      ]
+    },
+    {
+      "opening_id": 15,
+      "opening_seed": 123882,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 71,
+      "turns_after_opening": 63,
+      "statuses": [
+        {
+          "ok": 32,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 31,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 10,
+          "move": 22
+        },
+        {
+          "wall": 7,
+          "move": 24
+        }
+      ],
+      "time_mean": [
+        0.7062656722812548,
+        0.5960309369032207
+      ],
+      "time_max": [
+        0.7524437990000479,
+        0.7525906989999385
+      ],
+      "actions_timed": [
+        32,
+        31
+      ]
+    },
+    {
+      "opening_id": 16,
+      "opening_seed": 131801,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 83,
+      "turns_after_opening": 75,
+      "statuses": [
+        {
+          "ok": 38,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 37,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 30
+        },
+        {
+          "wall": 10,
+          "move": 27
+        }
+      ],
+      "time_mean": [
+        0.6524762465263381,
+        0.7066748680540698
+      ],
+      "time_max": [
+        0.7528589329999704,
+        0.7572865140000431
+      ],
+      "actions_timed": [
+        38,
+        37
+      ]
+    },
+    {
+      "opening_id": 16,
+      "opening_seed": 131801,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 75,
+      "turns_after_opening": 67,
+      "statuses": [
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 33,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "wall": 8,
+          "move": 26
+        },
+        {
+          "wall": 10,
+          "move": 23
+        }
+      ],
+      "time_mean": [
+        0.7186884165882529,
+        0.6333854710303237
+      ],
+      "time_max": [
+        0.7526427390000663,
+        0.7530861110001297
+      ],
+      "actions_timed": [
+        34,
+        33
+      ]
+    },
+    {
+      "opening_id": 17,
+      "opening_seed": 139720,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 76,
+      "turns_after_opening": 68,
+      "statuses": [
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 25,
+          "wall": 9
+        },
+        {
+          "move": 25,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.683187834470593,
+        0.6972237585882259
+      ],
+      "time_max": [
+        0.7526391119999971,
+        0.7526966400000674
+      ],
+      "actions_timed": [
+        34,
+        34
+      ]
+    },
+    {
+      "opening_id": 17,
+      "opening_seed": 139720,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 76,
+      "turns_after_opening": 68,
+      "statuses": [
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 34,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 25,
+          "wall": 9
+        },
+        {
+          "move": 25,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.7019729639117647,
+        0.6817695877941051
+      ],
+      "time_max": [
+        0.7525553830000717,
+        0.7531069990000105
+      ],
+      "actions_timed": [
+        34,
+        34
+      ]
+    },
+    {
+      "opening_id": 18,
+      "opening_seed": 147639,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 63,
+      "turns_after_opening": 55,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 27,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 20,
+          "wall": 8
+        },
+        {
+          "move": 21,
+          "wall": 6
+        }
+      ],
+      "time_mean": [
+        0.7248915433214539,
+        0.7518238170370195
+      ],
+      "time_max": [
+        0.7530339980000917,
+        0.7528471979999267
+      ],
+      "actions_timed": [
+        28,
+        27
+      ]
+    },
+    {
+      "opening_id": 18,
+      "opening_seed": 147639,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 63,
+      "turns_after_opening": 55,
+      "statuses": [
+        {
+          "ok": 28,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 27,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 20,
+          "wall": 8
+        },
+        {
+          "move": 21,
+          "wall": 6
+        }
+      ],
+      "time_mean": [
+        0.7249126693571465,
+        0.7520117339629787
+      ],
+      "time_max": [
+        0.7532929869998952,
+        0.755167584999981
+      ],
+      "actions_timed": [
+        28,
+        27
+      ]
+    },
+    {
+      "opening_id": 19,
+      "opening_seed": 155558,
+      "tt_side": 0,
+      "outcome": "win",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 57,
+      "turns_after_opening": 49,
+      "statuses": [
+        {
+          "ok": 25,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 16,
+          "wall": 9
+        },
+        {
+          "wall": 7,
+          "move": 17
+        }
+      ],
+      "time_mean": [
+        0.7218850128800477,
+        0.7520485630415976
+      ],
+      "time_max": [
+        0.7537975929999448,
+        0.75258454599998
+      ],
+      "actions_timed": [
+        25,
+        24
+      ]
+    },
+    {
+      "opening_id": 19,
+      "opening_seed": 155558,
+      "tt_side": 1,
+      "outcome": "loss",
+      "winner": 0,
+      "termination_reason": "goal",
+      "turns_total": 57,
+      "turns_after_opening": 49,
+      "statuses": [
+        {
+          "ok": 25,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 16,
+          "wall": 9
+        },
+        {
+          "wall": 7,
+          "move": 17
+        }
+      ],
+      "time_mean": [
+        0.721726169240028,
+        0.7519431645416716
+      ],
+      "time_max": [
+        0.7525288209999417,
+        0.7524013380002543
+      ],
+      "actions_timed": [
+        25,
+        24
+      ]
+    },
+    {
+      "opening_id": 20,
+      "opening_seed": 163477,
+      "tt_side": 0,
+      "outcome": "loss",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 56,
+      "turns_after_opening": 48,
+      "statuses": [
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 16,
+          "wall": 8
+        },
+        {
+          "move": 15,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.6949767380833501,
+        0.7205170872917014
+      ],
+      "time_max": [
+        0.777043195999795,
+        0.7530312369999592
+      ],
+      "actions_timed": [
+        24,
+        24
+      ]
+    },
+    {
+      "opening_id": 20,
+      "opening_seed": 163477,
+      "tt_side": 1,
+      "outcome": "win",
+      "winner": 1,
+      "termination_reason": "goal",
+      "turns_total": 56,
+      "turns_after_opening": 48,
+      "statuses": [
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        {
+          "ok": 24,
+          "pass": 0,
+          "invalid": 0,
+          "timeout": 0,
+          "error": 0
+        }
+      ],
+      "action_types": [
+        {
+          "move": 16,
+          "wall": 8
+        },
+        {
+          "move": 15,
+          "wall": 9
+        }
+      ],
+      "time_mean": [
+        0.7519514978332799,
+        0.6824426136666565
+      ],
+      "time_max": [
+        0.7533832819999589,
+        0.752718781999647
+      ],
+      "actions_timed": [
+        24,
+        24
+      ]
+    }
+  ]
+}

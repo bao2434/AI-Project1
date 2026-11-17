@@ -1,0 +1,171 @@
+[{"stream_name":"stderr","time":11.138058941,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":11.138240016,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":11.138246452,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":11.138249279,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":12.053260537,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":12.053304316,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":12.053311092,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":12.053314888,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":32.072358012,"data":"Current directory: /kaggle/working/AI-Project1\n"}
+,{"stream_name":"stdout","time":32.149619041,"data":"/kaggle/working\n"}
+,{"stream_name":"stdout","time":38.843329466,"data":"Candidate outcome datasets (unique game IDs, not positions):\r\n"}
+,{"stream_name":"stdout","time":38.843369927,"data":" 1.   126 games,    9115 states: /kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/v2/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843375493,"data":" 2.   126 games,    9115 states: /kaggle/working/AI-Project1/training/datasets/v2/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843379912,"data":" 3.     4 games,     178 states: /kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/archive/AI-Project1/training/datasets/v1/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843384403,"data":" 4.     4 games,     178 states: /kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/v1/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843388637,"data":" 5.     4 games,     178 states: /kaggle/input/notebooks/vntrangphm/minimax-cnn-2/AI-Project1/training/datasets/v1/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843392831,"data":" 6.     4 games,     178 states: /kaggle/working/AI-Project1/training/datasets/v1/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843397132,"data":" 7.     2 games,     149 states: /kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/archive/AI-Project1/training/datasets/smoke/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.84340121,"data":" 8.     2 games,     149 states: /kaggle/input/datasets/vntrangphm/wrongway-ai-project/AI-Project1/training/datasets/smoke/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843405307,"data":" 9.     2 games,     149 states: /kaggle/input/notebooks/vntrangphm/minimax-cnn-2/AI-Project1/training/datasets/smoke/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.843411829,"data":"10.     2 games,     149 states: /kaggle/working/AI-Project1/training/datasets/smoke/states.jsonl\r\n"}
+,{"stream_name":"stdout","time":38.868949279,"data":"RESTORED: /kaggle/working/AI-Project1/training/datasets/v3_source/states.jsonl | 126 games / 9115 states\r\n"}
+,{"stream_name":"stdout","time":39.300938899,"data":"SOURCE: 9115 states from 126 independent game IDs\r\n"}
+,{"stream_name":"stdout","time":39.300975598,"data":"SAMPLED: 800 states from 126 games\r\n"}
+,{"stream_name":"stdout","time":39.30098,"data":"Writing labels to temporary file; original output is preserved until validation passes.\r\n"}
+,{"stream_name":"stdout","time":40.832069819,"data":"Labeled 25/800 | saved=25 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":42.412327377,"data":"Labeled 50/800 | saved=50 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":43.947146788,"data":"Labeled 75/800 | saved=75 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":45.580276661,"data":"Labeled 100/800 | saved=100 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":47.518261516,"data":"Labeled 125/800 | saved=125 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":49.405452679,"data":"Labeled 150/800 | saved=150 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":51.138747289,"data":"Labeled 175/800 | saved=175 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":52.462711289,"data":"Labeled 200/800 | saved=200 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":54.554381842,"data":"Labeled 225/800 | saved=225 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":56.594359009,"data":"Labeled 250/800 | saved=250 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":58.22848185,"data":"Labeled 275/800 | saved=275 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":60.276072693,"data":"Labeled 300/800 | saved=300 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":61.807517916,"data":"Labeled 325/800 | saved=325 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":63.083468562,"data":"Labeled 350/800 | saved=350 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":65.122487154,"data":"Labeled 375/800 | saved=375 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":66.759386716,"data":"Labeled 400/800 | saved=400 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":68.547760258,"data":"Labeled 425/800 | saved=425 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":70.69074469,"data":"Labeled 450/800 | saved=450 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":72.322149441,"data":"Labeled 475/800 | saved=475 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":73.748808911,"data":"Labeled 500/800 | saved=500 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":75.534746333,"data":"Labeled 525/800 | saved=525 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":77.115172287,"data":"Labeled 550/800 | saved=550 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":78.901220338,"data":"Labeled 575/800 | saved=575 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":80.532387701,"data":"Labeled 600/800 | saved=600 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":82.317695809,"data":"Labeled 625/800 | saved=625 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":84.002716085,"data":"Labeled 650/800 | saved=650 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":85.685921977,"data":"Labeled 675/800 | saved=675 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":87.319047271,"data":"Labeled 700/800 | saved=700 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":89.312271136,"data":"Labeled 725/800 | saved=725 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":91.613590356,"data":"Labeled 750/800 | saved=750 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":93.453533807,"data":"Labeled 775/800 | saved=775 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":95.238637001,"data":"Labeled 800/800 | saved=800 | last_depth=2\r\n"}
+,{"stream_name":"stdout","time":95.238684922,"data":"{\r\n"}
+,{"stream_name":"stdout","time":95.238690001,"data":"  \"description\": \"Search-distilled labels; same POV as acting player, NOT win probabilities\",\r\n"}
+,{"stream_name":"stdout","time":95.238693518,"data":"  \"original_rows\": 9115,\r\n"}
+,{"stream_name":"stdout","time":95.238696704,"data":"  \"original_games\": 126,\r\n"}
+,{"stream_name":"stdout","time":95.238699728,"data":"  \"selected\": 800,\r\n"}
+,{"stream_name":"stdout","time":95.238718026,"data":"  \"selected_games\": 126,\r\n"}
+,{"stream_name":"stdout","time":95.238720775,"data":"  \"saved\": 800,\r\n"}
+,{"stream_name":"stdout","time":95.238724297,"data":"  \"skipped_min_depth\": 0,\r\n"}
+,{"stream_name":"stdout","time":95.238735349,"data":"  \"teacher_timeouts\": 0,\r\n"}
+,{"stream_name":"stdout","time":95.238739296,"data":"  \"unique_games_saved\": 126,\r\n"}
+,{"stream_name":"stdout","time":95.238742712,"data":"  \"depth_counts\": {\r\n"}
+,{"stream_name":"stdout","time":95.238746684,"data":"    \"2\": 800\r\n"}
+,{"stream_name":"stdout","time":95.238750223,"data":"  },\r\n"}
+,{"stream_name":"stdout","time":95.238753787,"data":"  \"outcome_counts\": {\r\n"}
+,{"stream_name":"stdout","time":95.238757577,"data":"    \"1\": 402,\r\n"}
+,{"stream_name":"stdout","time":95.238761327,"data":"    \"-1\": 398\r\n"}
+,{"stream_name":"stdout","time":95.238765479,"data":"  },\r\n"}
+,{"stream_name":"stdout","time":95.238769208,"data":"  \"teacher_value_mean\": -0.07018739825,\r\n"}
+,{"stream_name":"stdout","time":95.238773114,"data":"  \"teacher_value_std\": 0.6826007463055608,\r\n"}
+,{"stream_name":"stdout","time":95.238777186,"data":"  \"settings\": {\r\n"}
+,{"stream_name":"stdout","time":95.238780952,"data":"    \"data\": \"training/datasets/v3_source/states.jsonl\",\r\n"}
+,{"stream_name":"stdout","time":95.238784999,"data":"    \"teacher\": \"Agents/minimax_tt_cached.py\",\r\n"}
+,{"stream_name":"stdout","time":95.23878895,"data":"    \"out\": \"training/datasets/search_v3_fixed\",\r\n"}
+,{"stream_name":"stdout","time":95.238793124,"data":"    \"per_game\": 8,\r\n"}
+,{"stream_name":"stdout","time":95.238796401,"data":"    \"max_states\": 800,\r\n"}
+,{"stream_name":"stdout","time":95.238798929,"data":"    \"max_games\": 0,\r\n"}
+,{"stream_name":"stdout","time":95.238801312,"data":"    \"max_depth\": 2,\r\n"}
+,{"stream_name":"stdout","time":95.238803686,"data":"    \"min_depth\": 2,\r\n"}
+,{"stream_name":"stdout","time":95.238806019,"data":"    \"time_limit\": 0.5,\r\n"}
+,{"stream_name":"stdout","time":95.2388087,"data":"    \"scale\": 40.0,\r\n"}
+,{"stream_name":"stdout","time":95.238812171,"data":"    \"seed\": 42,\r\n"}
+,{"stream_name":"stdout","time":95.238815952,"data":"    \"min_games\": 30,\r\n"}
+,{"stream_name":"stdout","time":95.238819881,"data":"    \"min_selected\": 300,\r\n"}
+,{"stream_name":"stdout","time":95.238823853,"data":"    \"min_labels\": 250,\r\n"}
+,{"stream_name":"stdout","time":95.238827644,"data":"    \"min_labeled_games\": 25\r\n"}
+,{"stream_name":"stdout","time":95.238831568,"data":"  },\r\n"}
+,{"stream_name":"stdout","time":95.23883502,"data":"  \"teacher_file\": \"/kaggle/working/AI-Project1/Agents/minimax_tt_cached.py\",\r\n"}
+,{"stream_name":"stdout","time":95.238839033,"data":"  \"input_file\": \"/kaggle/working/AI-Project1/training/datasets/v3_source/states.jsonl\",\r\n"}
+,{"stream_name":"stdout","time":95.238842619,"data":"  \"output_file\": \"/kaggle/working/AI-Project1/training/datasets/search_v3_fixed/states_search.jsonl\"\r\n"}
+,{"stream_name":"stdout","time":95.238846095,"data":"}\r\n"}
+,{"stream_name":"stdout","time":95.238849699,"data":"ACCEPTED: /kaggle/working/AI-Project1/training/datasets/search_v3_fixed/states_search.jsonl\r\n"}
+,{"stream_name":"stdout","time":100.296093261,"data":"LABEL DIAGNOSTICS: {\"games\": 126, \"states\": 800, \"mean\": -0.07018739825, \"std\": 0.6826007463055608, \"sign_counts\": {\"positive\": 322, \"negative\": 405, \"neutral\": 73}, \"teacher_depth_counts\": {\"2\": 800}, \"saturated_abs_ge_0.98\": 111, \"majority_sign_accuracy_baseline\": 0.5570839064649243}\r\n"}
+,{"stream_name":"stdout","time":100.602398739,"data":"Device: cpu | CNN-compatible architecture: cnn\r\n"}
+,{"stream_name":"stdout","time":100.602445648,"data":"train: 88 games / 1106 positions\r\n"}
+,{"stream_name":"stdout","time":100.602450485,"data":"validation: 19 games / 123 positions\r\n"}
+,{"stream_name":"stdout","time":100.602454212,"data":"test: 19 games / 124 positions\r\n"}
+,{"stream_name":"stdout","time":108.204406022,"data":"Epoch 01: teacher MSE train=0.4833, val=0.3966\r\n"}
+,{"stream_name":"stdout","time":108.459718106,"data":"Epoch 02: teacher MSE train=0.4726, val=0.3827\r\n"}
+,{"stream_name":"stdout","time":108.663303194,"data":"Epoch 03: teacher MSE train=0.4561, val=0.3870\r\n"}
+,{"stream_name":"stdout","time":108.918719969,"data":"Epoch 04: teacher MSE train=0.4378, val=0.3989\r\n"}
+,{"stream_name":"stdout","time":109.122805878,"data":"Epoch 05: teacher MSE train=0.4262, val=0.4045\r\n"}
+,{"stream_name":"stdout","time":109.378126421,"data":"Epoch 06: teacher MSE train=0.4182, val=0.3920\r\n"}
+,{"stream_name":"stdout","time":109.582971516,"data":"Epoch 07: teacher MSE train=0.4057, val=0.3999\r\n"}
+,{"stream_name":"stdout","time":109.838585398,"data":"Epoch 08: teacher MSE train=0.3958, val=0.4159\r\n"}
+,{"stream_name":"stdout","time":110.043096285,"data":"Epoch 09: teacher MSE train=0.3845, val=0.3891\r\n"}
+,{"stream_name":"stdout","time":110.043135651,"data":"Early stopping\r\n"}
+,{"stream_name":"stdout","time":110.094346695,"data":"Saved: training/models/cnn_search_v3_fixed/best_model.pt and training/models/cnn_search_v3_fixed/metrics.json\r\n"}
+,{"stream_name":"stdout","time":110.094392007,"data":"TEST: {'teacher_mse': 0.4766214124618038, 'teacher_mae': 0.6062550083283456, 'teacher_sign_accuracy': 0.4954954954954955, 'outcome_sign_accuracy': 0.5725806451612904, 'states': 124, 'teacher_sign_evaluated': 111}\r\n"}
+,{"stream_name":"stdout","time":113.507610929,"data":"PROBE v2 opening 1 depth 3 nodes 778 BFS 11040 TT hits 26 TT entries 88\r\n"}
+,{"stream_name":"stdout","time":114.274953337,"data":"PROBE v3_tt opening 1 depth 3 nodes 1274 BFS 9144 TT hits 46 TT entries 133\r\n"}
+,{"stream_name":"stdout","time":115.040139083,"data":"PROBE v2 opening 2 depth 3 nodes 1419 BFS 18456 TT hits 48 TT entries 140\r\n"}
+,{"stream_name":"stdout","time":115.805469747,"data":"PROBE v3_tt opening 2 depth 3 nodes 1604 BFS 12883 TT hits 58 TT entries 209\r\n"}
+,{"stream_name":"stdout","time":116.521175775,"data":"PROBE v2 opening 3 depth 3 nodes 751 BFS 10226 TT hits 22 TT entries 84\r\n"}
+,{"stream_name":"stdout","time":117.289147635,"data":"PROBE v3_tt opening 3 depth 3 nodes 969 BFS 8842 TT hits 28 TT entries 130\r\n"}
+,{"stream_name":"stdout","time":168.221665938,"data":"MATCH 1 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":222.540699231,"data":"MATCH 1 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":257.269457958,"data":"MATCH 2 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":292.070482807,"data":"MATCH 2 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":331.676979633,"data":"MATCH 3 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":371.542203911,"data":"MATCH 3 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":412.591523188,"data":"MATCH 4 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":449.84934582,"data":"MATCH 4 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":488.855276828,"data":"MATCH 5 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":524.75593207,"data":"MATCH 5 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":569.464447005,"data":"MATCH 6 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":610.334730517,"data":"MATCH 6 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":657.397329952,"data":"MATCH 7 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":703.882876212,"data":"MATCH 7 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":731.285840655,"data":"MATCH 8 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":777.397285396,"data":"MATCH 8 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":807.922890815,"data":"MATCH 9 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":839.680435483,"data":"MATCH 9 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":881.095136834,"data":"MATCH 10 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":939.517004103,"data":"MATCH 10 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":989.980029876,"data":"MATCH 11 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1024.252547153,"data":"MATCH 11 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1055.217389544,"data":"MATCH 12 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1096.244001318,"data":"MATCH 12 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1148.846666052,"data":"MATCH 13 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1187.909882702,"data":"MATCH 13 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1224.428386729,"data":"MATCH 14 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1259.508405826,"data":"MATCH 14 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1301.179038266,"data":"MATCH 15 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1342.600012566,"data":"MATCH 15 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1393.915381429,"data":"MATCH 16 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1439.611001891,"data":"MATCH 16 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1486.943156268,"data":"MATCH 17 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1534.35835513,"data":"MATCH 17 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1575.340681458,"data":"MATCH 18 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1616.330165729,"data":"MATCH 18 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1652.789049184,"data":"MATCH 19 TT=P0 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1689.29767742,"data":"MATCH 19 TT=P1 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1723.656367573,"data":"MATCH 20 TT=P0 LOSS timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1758.444952831,"data":"MATCH 20 TT=P1 WIN timeout= 0\r\n"}
+,{"stream_name":"stdout","time":1758.444989921,"data":"Saved: /kaggle/working/AI-Project1/tests/tt_cache_vs_tt.json and /kaggle/working/AI-Project1/tests/tt_cache_vs_tt.md\r\n"}
+,{"stream_name":"stderr","time":1762.347772237,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1762.34781076,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1762.609542175,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1762.609628519,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1763.917514027,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":1764.044258638,"data":"[NbConvertApp] Writing 15855 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":1767.765588725,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1768.457561191,"data":"[NbConvertApp] Writing 289813 bytes to __results__.html\n"}
+]

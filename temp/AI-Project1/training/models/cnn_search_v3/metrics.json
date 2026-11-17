@@ -1,0 +1,364 @@
+{
+  "architecture": "cnn",
+  "seed": 42,
+  "best_epoch": 10,
+  "best_validation_teacher_mse": 0.007639986462891102,
+  "test": {
+    "teacher_mse": 0.6636905670166016,
+    "teacher_mae": 0.6255929470062256,
+    "teacher_sign_accuracy": 0.42857142857142855,
+    "outcome_sign_accuracy": 0.5,
+    "states": 8,
+    "teacher_sign_evaluated": 7
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "teacher_mse": 0.5467664003372192,
+        "teacher_mae": 0.6203183531761169,
+        "teacher_sign_accuracy": 0.7692307692307693,
+        "outcome_sign_accuracy": 0.5625,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.5050584673881531,
+        "teacher_mae": 0.5985509157180786,
+        "teacher_sign_accuracy": 0.2857142857142857,
+        "outcome_sign_accuracy": 0.5,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 2,
+      "train": {
+        "teacher_mse": 0.5142817497253418,
+        "teacher_mae": 0.6063502430915833,
+        "teacher_sign_accuracy": 0.8461538461538461,
+        "outcome_sign_accuracy": 0.625,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.4723413586616516,
+        "teacher_mae": 0.5747162103652954,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 3,
+      "train": {
+        "teacher_mse": 0.4742489457130432,
+        "teacher_mae": 0.5987147092819214,
+        "teacher_sign_accuracy": 0.8461538461538461,
+        "outcome_sign_accuracy": 0.625,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.44007834792137146,
+        "teacher_mae": 0.5603311061859131,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 4,
+      "train": {
+        "teacher_mse": 0.41953545808792114,
+        "teacher_mae": 0.5701751708984375,
+        "teacher_sign_accuracy": 0.9230769230769231,
+        "outcome_sign_accuracy": 0.6875,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.36215364933013916,
+        "teacher_mae": 0.5173356533050537,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 5,
+      "train": {
+        "teacher_mse": 0.35421285033226013,
+        "teacher_mae": 0.5254878997802734,
+        "teacher_sign_accuracy": 0.9230769230769231,
+        "outcome_sign_accuracy": 0.6875,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.26532718539237976,
+        "teacher_mae": 0.44704270362854004,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 6,
+      "train": {
+        "teacher_mse": 0.2823962867259979,
+        "teacher_mae": 0.4727182388305664,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.18073490262031555,
+        "teacher_mae": 0.3758224546909332,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 7,
+      "train": {
+        "teacher_mse": 0.21215282380580902,
+        "teacher_mae": 0.4178926944732666,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.12257415801286697,
+        "teacher_mae": 0.3117061257362366,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 8,
+      "train": {
+        "teacher_mse": 0.1549609899520874,
+        "teacher_mae": 0.3385191559791565,
+        "teacher_sign_accuracy": 0.9230769230769231,
+        "outcome_sign_accuracy": 0.6875,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.06324215233325958,
+        "teacher_mae": 0.22047938406467438,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.875,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 9,
+      "train": {
+        "teacher_mse": 0.12642425298690796,
+        "teacher_mae": 0.3153197765350342,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.11631394177675247,
+        "teacher_mae": 0.2864491641521454,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 10,
+      "train": {
+        "teacher_mse": 0.1741822212934494,
+        "teacher_mae": 0.29522430896759033,
+        "teacher_sign_accuracy": 0.7692307692307693,
+        "outcome_sign_accuracy": 0.875,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.007639986462891102,
+        "teacher_mae": 0.08049135655164719,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.875,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 11,
+      "train": {
+        "teacher_mse": 0.11633305996656418,
+        "teacher_mae": 0.2825876474380493,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.1709836721420288,
+        "teacher_mae": 0.326552152633667,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 12,
+      "train": {
+        "teacher_mse": 0.12974770367145538,
+        "teacher_mae": 0.2876282334327698,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.2093561887741089,
+        "teacher_mae": 0.35305166244506836,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 13,
+      "train": {
+        "teacher_mse": 0.07543106377124786,
+        "teacher_mae": 0.20437444746494293,
+        "teacher_sign_accuracy": 0.8461538461538461,
+        "outcome_sign_accuracy": 0.8125,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.06924790889024734,
+        "teacher_mae": 0.21171915531158447,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.875,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 14,
+      "train": {
+        "teacher_mse": 0.11488504707813263,
+        "teacher_mae": 0.2253251075744629,
+        "teacher_sign_accuracy": 0.8461538461538461,
+        "outcome_sign_accuracy": 0.875,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.03307117894291878,
+        "teacher_mae": 0.13636834919452667,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.875,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 15,
+      "train": {
+        "teacher_mse": 0.0615663081407547,
+        "teacher_mae": 0.18476203083992004,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.12960737943649292,
+        "teacher_mae": 0.27810847759246826,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 16,
+      "train": {
+        "teacher_mse": 0.0952213779091835,
+        "teacher_mae": 0.22096873819828033,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.216030552983284,
+        "teacher_mae": 0.350638747215271,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    },
+    {
+      "epoch": 17,
+      "train": {
+        "teacher_mse": 0.058093179017305374,
+        "teacher_mae": 0.17366531491279602,
+        "teacher_sign_accuracy": 1.0,
+        "outcome_sign_accuracy": 0.75,
+        "states": 16,
+        "teacher_sign_evaluated": 13
+      },
+      "validation": {
+        "teacher_mse": 0.15615108609199524,
+        "teacher_mae": 0.30046510696411133,
+        "teacher_sign_accuracy": 0.8571428571428571,
+        "outcome_sign_accuracy": 1.0,
+        "states": 8,
+        "teacher_sign_evaluated": 7
+      }
+    }
+  ],
+  "games": {
+    "train": 2,
+    "validation": 1,
+    "test": 1
+  },
+  "positions": {
+    "train": 16,
+    "validation": 8,
+    "test": 8
+  },
+  "args": {
+    "data": "training/datasets/search_v3/states_search.jsonl",
+    "out": "training/models/cnn_search_v3",
+    "architecture": "cnn",
+    "epochs": 35,
+    "batch_size": 128,
+    "lr": 0.001,
+    "patience": 7,
+    "outcome_weight": 0.0,
+    "augment_mirror": false,
+    "sign_deadzone": 0.05,
+    "seed": 42,
+    "device": "auto"
+  },
+  "note": "Teacher-value agreement is NOT game win rate; validate against Arena opponents."
+}

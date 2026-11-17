@@ -1,0 +1,122 @@
+[
+  {
+    "epoch": 1,
+    "train": {
+      "mse": 0.7454483745618534,
+      "mae": 0.8037095715034747,
+      "sign_accuracy_non_draw": 0.7269993986770896,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.0842656049972925,
+      "mae": 0.975771366021572,
+      "sign_accuracy_non_draw": 0.5272435897435898,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 2,
+    "train": {
+      "mse": 0.37507832057491813,
+      "mae": 0.48807664298896536,
+      "sign_accuracy_non_draw": 0.8821407095610343,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.5010538284595196,
+      "mae": 1.1345459192227094,
+      "sign_accuracy_non_draw": 0.36939102564102566,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 3,
+    "train": {
+      "mse": 0.26656878775885073,
+      "mae": 0.3434105943070788,
+      "sign_accuracy_non_draw": 0.9073962717979555,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.6739089978046906,
+      "mae": 1.1564524968465169,
+      "sign_accuracy_non_draw": 0.40705128205128205,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 4,
+    "train": {
+      "mse": 0.24953527473500173,
+      "mae": 0.3038755254579178,
+      "sign_accuracy_non_draw": 0.9093505712567649,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.684535142702934,
+      "mae": 1.1497059907668676,
+      "sign_accuracy_non_draw": 0.4310897435897436,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 5,
+    "train": {
+      "mse": 0.21801490720610123,
+      "mae": 0.2646301708806371,
+      "sign_accuracy_non_draw": 0.9210763680096211,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.7074768910041223,
+      "mae": 1.136661633467063,
+      "sign_accuracy_non_draw": 0.42948717948717946,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 6,
+    "train": {
+      "mse": 0.20850934870473892,
+      "mae": 0.248240006665329,
+      "sign_accuracy_non_draw": 0.9236319903788335,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.7552162867326002,
+      "mae": 1.1379224703862116,
+      "sign_accuracy_non_draw": 0.43669871794871795,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 7,
+    "train": {
+      "mse": 0.25581985686962244,
+      "mae": 0.28986236006827937,
+      "sign_accuracy_non_draw": 0.892513529765484,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.7665252165916638,
+      "mae": 1.1366970447393565,
+      "sign_accuracy_non_draw": 0.42628205128205127,
+      "states": 1248
+    }
+  },
+  {
+    "epoch": 8,
+    "train": {
+      "mse": 0.1971374902822709,
+      "mae": 0.23427549099535092,
+      "sign_accuracy_non_draw": 0.9258869512928443,
+      "states": 6652
+    },
+    "validation": {
+      "mse": 1.7363653794313088,
+      "mae": 1.1161713844690568,
+      "sign_accuracy_non_draw": 0.4439102564102564,
+      "states": 1248
+    }
+  }
+]
